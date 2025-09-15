@@ -89,7 +89,7 @@ fun Screen1(
 @Composable
 private fun Screen1Preview() {
     Screen1(
-        json = Json {},
+        json = Json,
         onNavigateScreen2 = {},
     )
 }

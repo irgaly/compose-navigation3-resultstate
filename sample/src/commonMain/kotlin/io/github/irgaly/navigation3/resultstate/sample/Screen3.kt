@@ -69,7 +69,7 @@ fun Screen3(
 @Composable
 private fun Screen3Preview() {
     Screen3(
-        json = Json {},
+        json = Json,
         onBack = {},
     )
 }

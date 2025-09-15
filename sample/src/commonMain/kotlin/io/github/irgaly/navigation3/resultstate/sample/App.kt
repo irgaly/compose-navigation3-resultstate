@@ -33,7 +33,7 @@ sealed interface Screen: NavKey
 @Preview
 fun App() {
     MaterialTheme {
-        val json = remember { Json {} }
+        val json = remember { Json }
         val configuration = SavedStateConfiguration {
             serializersModule = SerializersModule {
                 polymorphic(Screen::class) {

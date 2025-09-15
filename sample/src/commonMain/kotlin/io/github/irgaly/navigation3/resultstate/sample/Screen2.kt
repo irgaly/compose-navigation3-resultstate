@@ -99,7 +99,7 @@ fun Screen2(
 @Composable
 private fun Screen2Preview() {
     Screen2(
-        json = Json {},
+        json = Json,
         onBack = {},
         onNavigateScreen3 = {},
     )

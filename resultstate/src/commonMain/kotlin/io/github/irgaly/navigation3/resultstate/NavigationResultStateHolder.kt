@@ -154,7 +154,8 @@ class NavigationResultStateHolder <T: Any>(
     )
 
     companion object {
-        private val metadataKey: String = NavigationResultStateHolder::class.qualifiedName ?: "NavigationResultStateHolder.metadataKey"
+        private val metadataKey: String =
+            "io.github.irgaly.navigation3.resultstate.NavigationResultStateHolder.metadataKey"
 
         /**
          * Define the result keys that this entry want to receive

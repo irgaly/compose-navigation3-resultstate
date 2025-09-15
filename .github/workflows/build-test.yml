@@ -1,0 +1,125 @@
+name: Build & Test
+on:
+  push:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [macos-latest, ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.platform }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: ./.github/actions/gradle-cache
+      - name: JVM Build
+        run: |
+          ./gradlew :resultstate:jvmTestClasses
+      - name: Nodejs Build
+        run: |
+          ./gradlew :resultstate:jsTestClasses
+      - name: Wasm Build
+        run: |
+          ./gradlew :resultstate:wasmJsTestClasses
+      - name: Android Build
+        if: contains(matrix.platform, 'ubuntu')
+        run: |
+          ./gradlew :resultstate:assembleAndroidTest
+      - name: Linux Build
+        if: contains(matrix.platform, 'ubuntu')
+        run: |
+          ./gradlew :resultstate:linkDebugTestLinuxX64
+      - name: Windows Build
+        if: contains(matrix.platform, 'windows')
+        run: |
+          ./gradlew :resultstate:linkDebugTestMingwX64
+      - name: iOS Build
+        if: contains(matrix.platform, 'macos')
+        run: |
+          ./gradlew :resultstate:linkDebugTestIosSimulatorArm64
+      - name: macOS Build
+        if: contains(matrix.platform, 'macos')
+        run: |
+          ./gradlew :resultstate:linkDebugTestMacosArm64
+      - name: JVM Test
+        run: |
+          ./gradlew :resultstate:jvmTest
+      - name: Nodejs Test
+        run: |
+          ./gradlew :resultstate:jsNodeTest
+      - name: Wasm Test
+        run: |
+          ./gradlew :resultstate:wasmJsNodeTest
+      - name: Enable KVM group for Android Emulator
+        if: contains(matrix.platform, 'ubuntu')
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Android Test
+        uses: reactivecircus/android-emulator-runner@v2
+        if: contains(matrix.platform, 'ubuntu')
+        with:
+          api-level: 29
+          script: |
+            #./gradlew :resultstate:pixel6GroupDebugAndroidTest
+            #./gradlew :resultstate:connectedDebugAndroidTest
+      - name: Linux Test
+        if: contains(matrix.platform, 'ubuntu')
+        run: |
+          ./gradlew :resultstate:linuxX64Test
+      - name: Windows Test
+        if: contains(matrix.platform, 'windows')
+        run: |
+          ./gradlew :resultstate:mingwX64Test
+      - name: iOS Test
+        if: contains(matrix.platform, 'macos')
+        run: |
+          ./gradlew :resultstate:iosSimulatorArm64Test
+      - name: macOS Test
+        if: contains(matrix.platform, 'macos')
+        run: |
+          ./gradlew :resultstate:macosArm64Test
+      - name: Stop Gradle on Windows
+        if: contains(matrix.platform, 'windows')
+        run: |
+          # Windows で gradle cache を保存するために
+          # .gradle/caches/8.0/kotlin-dsl/kotlin-dsl.lock の使用中ロックを解除する
+          ./gradlew --stop
+      - uses: actions/upload-artifact@v4
+        if: always() && contains(matrix.platform, 'macos')
+        with:
+          name: test-results-macos
+          path: |
+            **/build/reports/tests/jvmTest
+            **/build/reports/tests/jsNodeTest
+            **/build/reports/tests/wasmJsNodeTest
+            **/build/reports/tests/macosArm64Test
+            **/build/reports/tests/iosSimulatorArm64Test
+      - uses: actions/upload-artifact@v4
+        if: always() && contains(matrix.platform, 'ubuntu')
+        with:
+          name: test-results-linux
+          path: |
+            **/build/reports/tests/jvmTest
+            **/build/reports/tests/jsNodeTest
+            **/build/reports/tests/wasmJsNodeTest
+            **/build/reports/tests/linuxX64Test
+            **/build/reports/androidTests/managedDevice/allDevices
+            **/build/reports/androidTests/connected
+      - uses: actions/upload-artifact@v4
+        if: always() && contains(matrix.platform, 'windows')
+        with:
+          name: test-results-windows
+          path: |
+            **/build/reports/tests/jvmTest
+            **/build/reports/tests/jsNodeTest
+            **/build/reports/tests/wasmJsNodeTest
+            **/build/reports/tests/mingwX64Test

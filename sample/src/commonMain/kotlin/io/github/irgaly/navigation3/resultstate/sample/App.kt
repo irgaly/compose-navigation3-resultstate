@@ -1,0 +1,121 @@
+package io.github.irgaly.navigation3.resultstate.sample
+
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSerializable
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entry
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
+import androidx.navigation3.ui.NavDisplay
+import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
+import androidx.savedstate.compose.serialization.serializers.SnapshotStateListSerializer
+import androidx.savedstate.serialization.SavedStateConfiguration
+import io.github.irgaly.navigation3.resultstate.NavigationResultStateHolder
+import io.github.irgaly.navigation3.resultstate.rememberNavigationResultNavEntryDecorator
+import io.github.irgaly.navigation3.resultstate.rememberNavigationResultStateHolder
+import io.github.irgaly.navigation3.resultstate.resultConsumer
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.polymorphic
+import kotlinx.serialization.serializer
+import org.jetbrains.compose.ui.tooling.preview.Preview
+
+@Serializable
+sealed interface Screen: NavKey
+
+@Composable
+@Preview
+fun App() {
+    MaterialTheme {
+        val json = remember { Json {} }
+        val configuration = SavedStateConfiguration {
+            serializersModule = SerializersModule {
+                polymorphic(Screen::class) {
+                    subclass(Screen1::class, Screen1.serializer())
+                    subclass(Screen2::class, Screen2.serializer())
+                    subclass(Screen3::class, Screen3.serializer())
+                }
+            }
+        }
+        val navBackStack = rememberSerializable(
+            configuration = configuration,
+            serializer = NavBackStackSerializer<Screen>(configuration = configuration)
+        ) {
+            mutableStateListOf(Screen1)
+        }
+        val entryProvider = entryProvider<Screen> {
+            entry<Screen1>(
+                metadata = NavigationResultStateHolder.resultConsumer(
+                    Screen2ResultKey,
+                    Screen3ResultKey,
+                )
+            ) {
+                Screen1(
+                    json = json,
+                    onNavigateScreen2 = {
+                        navBackStack.add(Screen2)
+                    }
+                )
+            }
+            entry<Screen2>(
+                metadata = NavigationResultStateHolder.resultConsumer(
+                    Screen3ResultKey,
+                )
+            ) {
+                Screen2(
+                    json = json,
+                    onBack = {
+                        if (navBackStack.isNotEmpty()) {
+                            navBackStack.removeLastOrNull()
+                        }
+                    },
+                    onNavigateScreen3 = {
+                        navBackStack.add(Screen3)
+                    }
+                )
+            }
+            entry<Screen3> {
+                Screen3(
+                    json = json,
+                    onBack = {
+                        if (navBackStack.isNotEmpty()) {
+                            navBackStack.removeLastOrNull()
+                        }
+                    },
+                )
+            }
+        }
+        val navigationResultStateHolder = rememberNavigationResultStateHolder(
+            navBackStack = navBackStack,
+            entryProvider = entryProvider,
+        )
+        NavDisplay(
+            backStack = navBackStack,
+            onBack = {
+                if (navBackStack.isNotEmpty()) {
+                    navBackStack.removeLastOrNull()
+                }
+            },
+            entryDecorators = listOf(
+                rememberSceneSetupNavEntryDecorator(),
+                rememberNavigationResultNavEntryDecorator(navigationResultStateHolder),
+                rememberSavedStateNavEntryDecorator(),
+            ),
+            entryProvider = entryProvider,
+        )
+    }
+}
+
+@Suppress("FunctionName")
+inline fun <reified T : Any> NavBackStackSerializer(
+    configuration: SavedStateConfiguration
+): KSerializer<SnapshotStateList<T>> {
+    val elementSerializer = configuration.serializersModule.serializer<T>()
+    return SnapshotStateListSerializer(elementSerializer)
+}

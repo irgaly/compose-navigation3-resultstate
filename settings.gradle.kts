@@ -19,5 +19,6 @@ plugins {
 rootProject.name = "compose-navigation3-resultstate"
 include(
     ":resultstate",
+    ":sample",
 )
 includeBuild("build-logic")

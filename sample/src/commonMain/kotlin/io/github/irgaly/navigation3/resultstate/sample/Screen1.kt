@@ -18,7 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import io.github.irgaly.navigation3.resultstate.LocalNavigationResultConsumer
-import io.github.irgaly.navigation3.resultstate.getResult
+import io.github.irgaly.navigation3.resultstate.getResultState
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -39,7 +39,7 @@ fun Screen1(
         mutableStateOf("{empty}")
     }
     val screen2Result by remember (resultConsumer) {
-        resultConsumer.getResult(json, Screen2ResultKey)
+        resultConsumer.getResultState(json, Screen2ResultKey)
     }
     LaunchedEffect(screen2Result) {
         val result = screen2Result
@@ -49,7 +49,7 @@ fun Screen1(
         }
     }
     val screen3Result by remember {
-        resultConsumer.getResult(json, Screen3ResultKey)
+        resultConsumer.getResultState(json, Screen3ResultKey)
     }
     LaunchedEffect(screen3Result) {
         val result = screen3Result

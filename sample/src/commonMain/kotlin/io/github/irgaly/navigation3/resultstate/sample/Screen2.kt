@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import io.github.irgaly.navigation3.resultstate.LocalNavigationResultConsumer
 import io.github.irgaly.navigation3.resultstate.LocalNavigationResultProducer
 import io.github.irgaly.navigation3.resultstate.SerializableNavigationResultKey
-import io.github.irgaly.navigation3.resultstate.getResult
+import io.github.irgaly.navigation3.resultstate.getResultState
 import io.github.irgaly.navigation3.resultstate.setResult
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -51,7 +51,7 @@ fun Screen2(
         mutableStateOf("{empty}")
     }
     val screen3Result by remember(resultConsumer) {
-        resultConsumer.getResult(json, Screen3ResultKey)
+        resultConsumer.getResultState(json, Screen3ResultKey)
     }
     LaunchedEffect(screen3Result) {
         val result = screen3Result

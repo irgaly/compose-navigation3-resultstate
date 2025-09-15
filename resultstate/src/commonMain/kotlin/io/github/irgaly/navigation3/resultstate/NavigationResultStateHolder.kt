@@ -97,7 +97,7 @@ class NavigationResultStateHolder <T: Any>(
     ): NavigationResultConsumer {
         val contentKeyString = contentKeyToString(entry.contentKey)
         return object: NavigationResultConsumer {
-            override fun getResult(
+            override fun getResultState(
                 resultKey: String,
             ): State<NavigationResult?> {
                 val metadata = entry.metadata[metadataKey] as? ResultConsumerMetadata

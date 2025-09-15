@@ -21,14 +21,14 @@ interface NavigationResultConsumer {
      * ```kotlin
      * val resultConsumer = LocalNavigationResultConsumer.current
      * val screen2Result by remember (resultConsumer) {
-     *   resultConsumer.getResult("Screen2ResultKey")
+     *   resultConsumer.getResultState("Screen2ResultKey")
      * }
      * ```
      *
      * @param resultKey Result Key for receiving
      * @throws IllegalStateException resultKey is not registered to NavEntry for consuming, because [NavigationResultStateHolder.resultConsumer] is not assigned to [NavEntry.metadata].
      */
-    fun getResult(resultKey: String): State<NavigationResult?>
+    fun getResultState(resultKey: String): State<NavigationResult?>
     /**
      * Remove NavigationResult
      *
@@ -48,18 +48,18 @@ interface NavigationResultConsumer {
  * ```kotlin
  * val resultConsumer = LocalNavigationResultConsumer.current
  * val screen2Result by remember (resultConsumer) {
- *   resultConsumer.getResult(json, Screen2ResultKey)
+ *   resultConsumer.getResultState(json, Screen2ResultKey)
  * }
  * ```
  *
  * @param key Result Key for receiving
  * @throws IllegalStateException key is not registered to NavEntry for consuming, because [NavigationResultStateHolder.resultConsumer] is not assigned to [NavEntry.metadata].
  */
-fun <Result> NavigationResultConsumer.getResult(
+fun <Result> NavigationResultConsumer.getResultState(
     json: Json,
     key: SerializableNavigationResultKey<Result>,
 ): State<SerializedNavigationResult<Result>?> {
-    val resultState = getResult(resultKey = key.resultKey)
+    val resultState = getResultState(resultKey = key.resultKey)
     return derivedStateOf {
         val result = resultState.value
         if (result != null) {
@@ -92,6 +92,6 @@ val LocalNavigationResultConsumer: ProvidableCompositionLocal<NavigationResultCo
     }
 
 private class EmptyNavigationResultConsumer: NavigationResultConsumer {
-    override fun getResult(resultKey: String): State<NavigationResult?> = mutableStateOf(null)
+    override fun getResultState(resultKey: String): State<NavigationResult?> = mutableStateOf(null)
     override fun clearResult(resultKey: String) = Unit
 }

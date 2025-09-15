@@ -1,0 +1,36 @@
+{
+  "extends": [
+    "config:recommended",
+    "schedule:quarterly"
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "enabled": false
+    },
+    {
+      "groupName": "Kotlin, KSP",
+      "matchPackageNames": [
+        "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin",
+        "org.jetbrains.kotlin:*",
+        "org.jetbrains.kotlin.*"
+      ]
+    },
+    {
+      "groupName": "Android Gradle Plugin",
+      "matchPackageNames": [
+        "com.android.application",
+        "com.android.library"
+      ]
+    },
+    {
+      "groupName": "Kotest",
+      "matchPackageNames": [
+        "io.kotest",
+        "io.kotest:kotest-*"
+      ]
+    }
+  ]
+}

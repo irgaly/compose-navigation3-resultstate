@@ -1,0 +1,61 @@
+[versions]
+resultstate = "1.0.0"
+kotlin = "2.2.20"
+kotlinx-coroutines = "1.10.2"
+kotlinx-serialization = "1.9.0"
+kotest = "6.0.3"
+gradle-android = "8.13.0"
+android-compile-sdk = "36"
+android-target-sdk = "36"
+android-min-sdk = "23"
+androidx-navigation3 = "1.0.0-alpha09"
+junit5-android-test = "1.8.0"
+ui-tooling = "1.9.1"
+
+[libraries]
+gradle-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+gradle-android = { module = "com.android.tools.build:gradle", version.ref = "gradle-android" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version = "1.7.1" }
+androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version = "2.9.3" }
+compose-activity = { module = "androidx.activity:activity-compose", version = "1.11.0" }
+compose-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "androidx-navigation3" }
+compose-navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version = "1.0.0+dev2947" }
+test-kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+test-kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+test-kotest-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
+test-turbine = { module = "app.cash.turbine:turbine", version = "1.2.1" }
+test-android-junit5 = { module = "org.junit.jupiter:junit-jupiter-api", version = "5.13.4" }
+test-android-junit5-core = { module = "de.mannodermaus.junit5:android-test-core", version.ref = "junit5-android-test" }
+test-android-junit5-runner = { module = "de.mannodermaus.junit5:android-test-runner", version.ref = "junit5-android-test" }
+test-android-runner = { module = "androidx.test:runner", version = "1.7.0" }
+resultstate = { module = "io.github.irgaly.navigation3.resultstate:resultstate", version.ref = "resultstate" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "ui-tooling" }
+
+[bundles]
+test-common = [
+    "kotlinx-coroutines-test", "test-kotest-engine",
+    "test-kotest-assertions", "test-turbine"]
+test-android-instrumented = [
+    "test-kotest-assertions", "test-android-junit5", "test-android-junit5-core", "test-android-runner",
+    "kotlinx-coroutines-test", "test-turbine"
+]
+
+[plugins]
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+compose-multiplatform = { id = "org.jetbrains.compose", version = "1.8.2" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+android-application = { id = "com.android.application", version.ref = "gradle-android" }
+android-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "gradle-android" }
+ksp = { id = "com.google.devtools.ksp", version = "2.2.20-2.0.3" }
+kotest = { id = "io.kotest", version.ref = "kotest" }
+dokka = { id = "org.jetbrains.dokka", version = "2.1.0-Beta" }
+nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version = "2.0.0" }
+android-junit5 = { id = "de.mannodermaus.android-junit5", version = "1.13.4.0" }
+buildlogic-multiplatform-library = { id = "build-logic.multiplatform.library" }
+buildlogic-android-application = { id = "build-logic.android.application" }
+buildlogic-android-library = { id = "build-logic.android.library" }

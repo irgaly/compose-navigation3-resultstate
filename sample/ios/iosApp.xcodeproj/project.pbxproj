@@ -21,9 +21,9 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		B25B892F2E76865E00179B75 /* Configuration */ = {
+		B25B892F2E76865E00179B75 /* Configurations */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Configuration;
+			path = Configurations;
 			sourceTree = "<group>";
 		};
 		EAC811E691A7B97300E60658 /* iosApp */ = {
@@ -50,7 +50,7 @@
 		04721FD72C51AE9C9B041FBA = {
 			isa = PBXGroup;
 			children = (
-				B25B892F2E76865E00179B75 /* Configuration */,
+				B25B892F2E76865E00179B75 /* Configurations */,
 				EAC811E691A7B97300E60658 /* iosApp */,
 				B2039DB62E788E6A005E1772 /* Products */,
 			);
@@ -175,7 +175,7 @@
 		};
 		5B9B1C17EA21D63DEC538E94 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = B25B892F2E76865E00179B75 /* Configuration */;
+			baseConfigurationReferenceAnchor = B25B892F2E76865E00179B75 /* Configurations */;
 			baseConfigurationReferenceRelativePath = "Project-Release.xcconfig";
 			buildSettings = {
 			};
@@ -183,7 +183,7 @@
 		};
 		A51EEFE16C547A8F5352A5CF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = B25B892F2E76865E00179B75 /* Configuration */;
+			baseConfigurationReferenceAnchor = B25B892F2E76865E00179B75 /* Configurations */;
 			baseConfigurationReferenceRelativePath = "Project-Debug.xcconfig";
 			buildSettings = {
 			};

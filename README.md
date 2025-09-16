@@ -147,6 +147,7 @@ fun NavigationContent() {
             rememberSceneSetupNavEntryDecorator(),
             // 2.
             // Set an NavigationResultNavEntryDecorator to NavDisplay.
+            // This decorator provides LocalNavigationResultProducer and LocalNavigationResultConsumer to NavEntries.
             rememberNavigationResultNavEntryDecorator(navigationResultStateHolder),
             rememberSavedStateNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator(),

@@ -7,7 +7,7 @@ import androidx.navigation3.runtime.NavEntryDecorator
 import androidx.navigation3.runtime.navEntryDecorator
 
 /**
- * NavEntryDecorator to provides LocalNavigationResultProducer and LocalNavigationResultConsumer
+ * NavEntryDecorator to provide LocalNavigationResultProducer and LocalNavigationResultConsumer
  */
 @Suppress("FunctionName")
 fun <T: Any> NavigationResultNavEntryDecorator(
@@ -30,6 +30,9 @@ fun <T: Any> NavigationResultNavEntryDecorator(
     )
 }
 
+/**
+ * remember [NavigationResultNavEntryDecorator]
+ */
 @Composable
 fun <T: Any> rememberNavigationResultNavEntryDecorator(
     navigationResultStateHolder: NavigationResultStateHolder<T>,

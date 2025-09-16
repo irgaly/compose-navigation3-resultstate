@@ -90,7 +90,7 @@ So you can produce a result as String with a String result key.
 To use ResultState, follow this steps:
 
 1. Register the result keys to the consumer screen's NavEntry metadata with
-   `NavigationResultStateHolder.resultConsumer()` function.
+   `NavigationResultMetadata.resultConsumer()` function.
 2. Call `rememberNavigationResultStateHolder()` and set
    `rememberNavigationResultNavEntryDecorator()` to NavDisplay's
    entryDecorators.
@@ -122,8 +122,8 @@ fun NavigationContent() {
         entry<Screen1>(
             // 1.
             // Declare that the Screen1 want to receive the Screen2's result, so register "Screen2Result" key to metadata.
-            // result key is just unique string tied to the Screen2's result.
-            metadata = NavigationResultStateHolder.resultConsumer(
+            // The result key is just unique string tied to the Screen2's result.
+            metadata = NavigationResultMetadata.resultConsumer(
                 "Screen2Result",
             )
         ) {
@@ -135,7 +135,7 @@ fun NavigationContent() {
     }
     // 2.
     // Create NavigationResultStateHolder that holds ResultState on SavedState.
-    // entryProvider is the same one as NavDisplay's entryProvider.
+    // The entryProvider is the same one as NavDisplay's entryProvider.
     val navigationResultStateHolder = rememberNavigationResultStateHolder(
         navBackStack = navBackStack,
         entryProvider = entryProvider,
@@ -240,7 +240,7 @@ fun NavigationContent() {
     val navBackStack = rememberNavBackStack(Screen1)
     val entryProvider = entryProvider<Screen> {
         entry<Screen1>(
-            metadata = NavigationResultStateHolder.resultConsumer(
+            metadata = NavigationResultMetadata.resultConsumer(
                 // Register Screen2ResultKey as typed key.
                 Screen2ResultKey
             )

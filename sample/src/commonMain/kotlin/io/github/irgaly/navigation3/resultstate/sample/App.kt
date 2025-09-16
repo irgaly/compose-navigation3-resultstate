@@ -14,7 +14,7 @@ import androidx.navigation3.ui.NavDisplay
 import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
 import androidx.savedstate.compose.serialization.serializers.SnapshotStateListSerializer
 import androidx.savedstate.serialization.SavedStateConfiguration
-import io.github.irgaly.navigation3.resultstate.NavigationResultStateHolder
+import io.github.irgaly.navigation3.resultstate.NavigationResultMetadata
 import io.github.irgaly.navigation3.resultstate.rememberNavigationResultNavEntryDecorator
 import io.github.irgaly.navigation3.resultstate.rememberNavigationResultStateHolder
 import io.github.irgaly.navigation3.resultstate.resultConsumer
@@ -51,7 +51,7 @@ fun App() {
         }
         val entryProvider = entryProvider<Screen> {
             entry<Screen1>(
-                metadata = NavigationResultStateHolder.resultConsumer(
+                metadata = NavigationResultMetadata.resultConsumer(
                     Screen2ResultKey,
                     Screen3ResultKey,
                 )
@@ -64,7 +64,7 @@ fun App() {
                 )
             }
             entry<Screen2>(
-                metadata = NavigationResultStateHolder.resultConsumer(
+                metadata = NavigationResultMetadata.resultConsumer(
                     Screen3ResultKey,
                 )
             ) {

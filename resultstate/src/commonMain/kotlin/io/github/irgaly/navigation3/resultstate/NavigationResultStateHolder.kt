@@ -37,7 +37,8 @@ class NavigationResultStateHolder <T: Any>(
         navBackStack.mapNotNull { key ->
             val entry = entryProvider(key)
             val contentKeyString = contentKeyToString(entry.contentKey)
-            val metadata = entry.metadata[metadataKey] as? ResultConsumerMetadata
+            val metadata =
+                entry.metadata[NavigationResultMetadata.metadataKey] as? NavigationResultMetadata.ResultConsumer
             if (metadata != null && metadata.resultKeys.isNotEmpty()) {
                 Pair(contentKeyString, metadata.resultKeys.distinct())
             } else {
@@ -100,7 +101,8 @@ class NavigationResultStateHolder <T: Any>(
             override fun getResultState(
                 resultKey: String,
             ): State<NavigationResult?> {
-                val metadata = entry.metadata[metadataKey] as? ResultConsumerMetadata
+                val metadata =
+                    entry.metadata[NavigationResultMetadata.metadataKey] as? NavigationResultMetadata.ResultConsumer
                 if (metadata == null || resultKey !in metadata.resultKeys) {
                     throw IllegalStateException("resultKey \"$resultKey\" is not registered to NavEntry.metadata: entry=${entry.contentKey}")
                 }
@@ -148,70 +150,6 @@ class NavigationResultStateHolder <T: Any>(
             savedStateResults.value = result
         }
     }
-
-    private data class ResultConsumerMetadata(
-        val resultKeys: List<String>,
-    )
-
-    companion object {
-        private val metadataKey: String =
-            "io.github.irgaly.navigation3.resultstate.NavigationResultStateHolder.metadataKey"
-
-        /**
-         * Define the result keys that this entry want to receive
-         *
-         * ## usage
-         *
-         * ```kotlin
-         * @Serializable sealed interface Screen: NavKey
-         * val entryProvider = entryProvider<Screen> {
-         *   entry<Screen1>(
-         *     metadata = NavigationResultStateHolder.resultConsumer(
-         *        "Screen2Result",
-         *     )
-         *   ) {
-         *     ...
-         *   }
-         * }
-         * ...
-         * ```
-         */
-        fun resultConsumer(
-            vararg resultKeys: String
-        ): Map<String, Any> {
-            return mapOf(
-                metadataKey to ResultConsumerMetadata(resultKeys.toList())
-            )
-        }
-    }
-}
-
-/**
- * Define the result keys that this entry want to receive
- *
- * ## usage
- *
- * ```kotlin
- * @Serializable sealed interface Screen: NavKey
- * val Screen2ResultKey = SerializableNavigationResultKey(Screen2Result.serializer(), "Screen2Result")
- * val entryProvider = entryProvider<Screen> {
- *   entry<Screen1>(
- *     metadata = NavigationResultStateHolder.resultConsumer(
- *        Screen2ResultKey,
- *     )
- *   ) {
- *     ...
- *   }
- * }
- * ...
- * ```
- */
-fun NavigationResultStateHolder.Companion.resultConsumer(
-    vararg resultKeys: SerializableNavigationResultKey<*>
-): Map<String, Any> {
-    return NavigationResultStateHolder.resultConsumer(
-        *resultKeys.map { it.resultKey }.toTypedArray()
-    )
 }
 
 /**

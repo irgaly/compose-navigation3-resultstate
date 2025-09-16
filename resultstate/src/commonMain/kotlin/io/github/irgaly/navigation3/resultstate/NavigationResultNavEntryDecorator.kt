@@ -17,7 +17,7 @@ import androidx.navigation3.runtime.navEntryDecorator
 @Suppress("FunctionName")
 fun <T: Any> NavigationResultNavEntryDecorator(
     navigationResultStateHolder: NavigationResultStateHolder<T>,
-): NavEntryDecorator<Any> {
+): NavEntryDecorator<T> {
     return navEntryDecorator(
         onPop = { contentKey ->
             navigationResultStateHolder.onPop(contentKey)
@@ -41,7 +41,7 @@ fun <T: Any> NavigationResultNavEntryDecorator(
 @Composable
 fun <T: Any> rememberNavigationResultNavEntryDecorator(
     navigationResultStateHolder: NavigationResultStateHolder<T>,
-): NavEntryDecorator<Any> {
+): NavEntryDecorator<T> {
     return remember(navigationResultStateHolder) {
         NavigationResultNavEntryDecorator(navigationResultStateHolder)
     }
@@ -63,7 +63,7 @@ fun <T : Any> rememberNavigationResultNavEntryDecorator(
     savedStateResults: MutableState<Map<String, Map<String, String>>> = rememberSaveable {
         mutableStateOf(emptyMap())
     },
-): NavEntryDecorator<Any> {
+): NavEntryDecorator<T> {
     val navigationResultStateHolder = rememberNavigationResultStateHolder(
         navBackStack = navBackStack,
         entryProvider = entryProvider,

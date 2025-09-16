@@ -33,7 +33,6 @@ test-android-junit5-core = { module = "de.mannodermaus.junit5:android-test-core"
 test-android-junit5-runner = { module = "de.mannodermaus.junit5:android-test-runner", version.ref = "junit5-android-test" }
 test-android-runner = { module = "androidx.test:runner", version = "1.7.0" }
 resultstate = { module = "io.github.irgaly.navigation3.resultstate:resultstate", version.ref = "resultstate" }
-androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "ui-tooling" }
 
 [bundles]
 test-common = [

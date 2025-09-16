@@ -36,7 +36,7 @@ fun Screen3(
     json: Json,
     onBack: () -> Unit,
 ) {
-    val resultProvider = LocalNavigationResultProducer.current
+    val resultProducer = LocalNavigationResultProducer.current
     Surface {
         Column(
             modifier = Modifier
@@ -53,7 +53,7 @@ fun Screen3(
             }
             HorizontalDivider()
             Button(onClick = {
-                resultProvider.setResult(
+                resultProducer.setResult(
                     json,
                      Screen3ResultKey,
                     Screen3Result("my result of screen3!")

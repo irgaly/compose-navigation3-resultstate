@@ -45,7 +45,7 @@ fun Screen2(
     onBack: () -> Unit,
     onNavigateScreen3: () -> Unit
 ) {
-    val resultProvider = LocalNavigationResultProducer.current
+    val resultProducer = LocalNavigationResultProducer.current
     val resultConsumer = LocalNavigationResultConsumer.current
     var result3 by rememberSaveable {
         mutableStateOf("{empty}")
@@ -81,7 +81,7 @@ fun Screen2(
             }
             HorizontalDivider()
             Button(onClick = {
-                resultProvider.setResult(
+                resultProducer.setResult(
                     json,
                     Screen2ResultKey,
                     Screen2Result("my result of screen2!"),

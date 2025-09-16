@@ -91,9 +91,7 @@ To use ResultState, follow this steps:
 
 1. Register the result keys to the consumer screen's NavEntry metadata with
    `NavigationResultMetadata.resultConsumer()` function.
-2. Call `rememberNavigationResultStateHolder()` and set
-   `rememberNavigationResultNavEntryDecorator()` to NavDisplay's
-   entryDecorators.
+2. Set `rememberNavigationResultNavEntryDecorator()` to NavDisplay's entryDecorators.
 3. Receive the result as `State<NavigationResult?>` in the consumer screen by
    `LocalNavigationResultConsumer`.
 4. Produce the result from the producer screen by `LocalNavigationResultProducer`.
@@ -133,13 +131,6 @@ fun NavigationContent() {
             Screen2(...)
         }
     }
-    // 2.
-    // Create NavigationResultStateHolder that holds ResultState on SavedState.
-    // The entryProvider is the same one as NavDisplay's entryProvider.
-    val navigationResultStateHolder = rememberNavigationResultStateHolder(
-        navBackStack = navBackStack,
-        entryProvider = entryProvider,
-    )
     NavDisplay(
         backStack = navBackStack,
         onBack = { ... },
@@ -148,7 +139,12 @@ fun NavigationContent() {
             // 2.
             // Set an NavigationResultNavEntryDecorator to NavDisplay.
             // This decorator provides LocalNavigationResultProducer and LocalNavigationResultConsumer to NavEntries.
-            rememberNavigationResultNavEntryDecorator(navigationResultStateHolder),
+            // The entryProvider must be the same one as NavDisplay's entryProvider.
+            // rememberNavigationResultNavEntryDecorator() will also create NavigationResultStateHolder that holds ResultState on SavedState.
+            rememberNavigationResultNavEntryDecorator(
+                navBackStack = navBackStack,
+                entryProvider = entryProvider,
+            ),
             rememberSavedStateNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator(),
         ),
@@ -251,16 +247,15 @@ fun NavigationContent() {
             Screen2(...)
         }
     }
-    val navigationResultStateHolder = rememberNavigationResultStateHolder(
-        navBackStack = navBackStack,
-        entryProvider = entryProvider,
-    )
     NavDisplay(
         backStack = navBackStack,
         onBack = { ... },
         entryDecorators = listOf(
             rememberSceneSetupNavEntryDecorator(),
-            rememberNavigationResultNavEntryDecorator(navigationResultStateHolder),
+            rememberNavigationResultNavEntryDecorator(
+                navBackStack = navBackStack,
+                entryProvider = entryProvider,
+            ),
             rememberSavedStateNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator(),
         ),
@@ -318,27 +313,29 @@ fun Screen2(...) {
 # Architecture
 
 ResultState will store all results in a `MutableState<Map<String, Map<String, String>>>`,
-that is defined in rememberNavigationResultStateHolder() and hold by NavigationResultStateHolder.
+that is defined in rememberNavigationResultNavEntryDecorator() or
+rememberNavigationResultStateHolder() and it is held by NavigationResultStateHolder.
 
 This map contains all value as String, so it can be saved by SavedState.
 
 ```kotlin
 @Composable
-fun <T : Any> rememberNavigationResultStateHolder(
+fun <T : Any> rememberNavigationResultNavEntryDecorator(
     navBackStack: SnapshotStateList<T>,
     entryProvider: (T) -> NavEntry<*>,
     contentKeyToString: (Any) -> String = { it.toString() },
     savedStateResults: MutableState<Map<String, Map<String, String>>> = rememberSaveable {
         mutableStateOf(emptyMap())
-    }
-): NavigationResultStateHolder<T> {
-    return remember(navBackStack, entryProvider, savedStateResults) {
-        NavigationResultStateHolder(
-            navBackStack = navBackStack,
-            entryProvider = entryProvider,
-            contentKeyToString = contentKeyToString,
-            savedStateResults = savedStateResults,
-        )
+    },
+): NavEntryDecorator<T> {
+    val navigationResultStateHolder = rememberNavigationResultStateHolder(
+        navBackStack = navBackStack,
+        entryProvider = entryProvider,
+        contentKeyToString = contentKeyToString,
+        savedStateResults = savedStateResults,
+    )
+    return remember(navigationResultStateHolder) {
+        NavigationResultNavEntryDecorator(navigationResultStateHolder)
     }
 }
 ```

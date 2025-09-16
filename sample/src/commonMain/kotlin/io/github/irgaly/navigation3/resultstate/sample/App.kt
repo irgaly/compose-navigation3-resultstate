@@ -16,7 +16,6 @@ import androidx.savedstate.compose.serialization.serializers.SnapshotStateListSe
 import androidx.savedstate.serialization.SavedStateConfiguration
 import io.github.irgaly.navigation3.resultstate.NavigationResultMetadata
 import io.github.irgaly.navigation3.resultstate.rememberNavigationResultNavEntryDecorator
-import io.github.irgaly.navigation3.resultstate.rememberNavigationResultStateHolder
 import io.github.irgaly.navigation3.resultstate.resultConsumer
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -91,10 +90,6 @@ fun App() {
                 )
             }
         }
-        val navigationResultStateHolder = rememberNavigationResultStateHolder(
-            navBackStack = navBackStack,
-            entryProvider = entryProvider,
-        )
         NavDisplay(
             backStack = navBackStack,
             onBack = {
@@ -104,7 +99,10 @@ fun App() {
             },
             entryDecorators = listOf(
                 rememberSceneSetupNavEntryDecorator(),
-                rememberNavigationResultNavEntryDecorator(navigationResultStateHolder),
+                rememberNavigationResultNavEntryDecorator(
+                    navBackStack = navBackStack,
+                    entryProvider = entryProvider,
+                ),
                 rememberSavedStateNavEntryDecorator(),
             ),
             entryProvider = entryProvider,

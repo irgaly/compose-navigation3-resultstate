@@ -346,7 +346,7 @@ fun <T : Any> rememberNavigationResultStateHolder(
 The map has the structure below:
 
 * `Map<String, Map<String, String>>`
-    * Key: NavEntry contentKey
+    * Key: NavEntry contentKey as String
     * Value: `Map<String, String>`
         * Key: a Result Key as String
         * Value: a Result as String

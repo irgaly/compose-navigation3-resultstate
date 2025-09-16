@@ -156,6 +156,7 @@ class NavigationResultStateHolder <T: Any>(
  * create and remember NavigationResultStateHolder
  *
  * @param entryProvider the same entryProvider lambda as it is specified to AppNavHost
+ * @param contentKeyToString lambda to convert NavEntry.contentKey to String for serialization for SavedState
  */
 @Composable
 fun <T: Any> rememberNavigationResultStateHolder(

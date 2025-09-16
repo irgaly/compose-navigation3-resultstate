@@ -15,8 +15,8 @@ kotlin {
     }
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.kotlinx.serialization.json)
-            implementation(libs.compose.navigation3.runtime)
+            api(libs.kotlinx.serialization.json)
+            api(libs.compose.navigation3.runtime)
         }
         commonTest.dependencies {
         }

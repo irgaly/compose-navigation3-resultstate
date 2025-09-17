@@ -75,6 +75,7 @@ kotlin {
                 // add ResultState dependency
                 implementation("io.github.irgaly.navigation3.resultstate:resultstate:1.1.0")
                 implementation("org.jetbrains.androidx.navigation3:navigation3-ui:...")
+                // ...
             }
         }
     }
@@ -82,7 +83,7 @@ kotlin {
 }
 ```
 
-### Using ResultState with NavDisplay
+## Using ResultState with NavDisplay
 
 ResultState holds the all results as "String", that is for aiming to easily saved on SavedState
 architecture.
@@ -217,7 +218,7 @@ That's all!
 You can receive the Screen2's result "my result of screen2!" from Screen1, when reentered to Screen1
 or realtime because of the result is observed by Screen1 as a State.
 
-### Using ResultState with typed result keys and Kotlinx Serialization
+## Using ResultState with typed result keys and Kotlinx Serialization
 
 ResultState supports to handle the typed result keys and the value as any Serializable type.
 Serialization support is provided by extension functions.

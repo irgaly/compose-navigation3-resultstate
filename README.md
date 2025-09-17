@@ -321,7 +321,7 @@ ResultState will store all results in a `MutableState<Map<String, Map<String, St
 that is defined in rememberNavigationResultNavEntryDecorator() or
 rememberNavigationResultStateHolder() and it is held by NavigationResultStateHolder.
 
-This map contains all value as String, so it can be saved by SavedState.
+This map contains all values as String, so it can be saved by SavedState.
 
 ```kotlin
 @Composable

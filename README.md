@@ -10,7 +10,8 @@ However, Navigation3 lacks a Screen Result handling API at this time.
 ResultState provides a Result API based on SavedState architecture for both Android Jetpack Compose and
 Compose Multiplatform.
 
-ResultState is a saveable state and remembered, so it works well even if the NavBackStack is restored from Saved State.
+The result values are stored into SavedState, and survive through Activity recreation or process restarting correctly.
+Also the saved results are tied to NavEntry's lifecycle, and cleared automatically when the receiver screen is popped out.
 
 # Compatibility in Navigation3 alpha versions
 

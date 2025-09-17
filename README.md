@@ -483,8 +483,8 @@ fun Screen3(...) {
 }
 ```
 
-In this situation, if you want to wait for both Screen2Result and Screen3Result are produced,
-you can observe both states in single LaunchedEffect. This is a usual Compose way.
+In this situation, if you'd like to wait for both Screen2Result and Screen3Result are produced,
+you can observe both states by single LaunchedEffect. This is an usual Compose way.
 
 ```kotlin
 // The example of waiting for both results are produced.

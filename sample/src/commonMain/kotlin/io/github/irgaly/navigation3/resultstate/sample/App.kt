@@ -82,9 +82,9 @@ fun App() {
             entry<Screen3> {
                 Screen3(
                     json = json,
-                    onBack = {
-                        if (navBackStack.isNotEmpty()) {
-                            navBackStack.removeLastOrNull()
+                    onBack = { count ->
+                        if (count < navBackStack.size) {
+                            navBackStack.removeRange(navBackStack.size - count, navBackStack.size)
                         }
                     },
                 )

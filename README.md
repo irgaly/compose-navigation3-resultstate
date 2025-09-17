@@ -227,6 +227,15 @@ Serialization support is provided by extension functions.
 Here is an example.
 
 ```kotlin
+@Serializable
+sealed interface Screen : NavKey
+
+@Serializable
+object Screen1 : Screen
+
+@Serializable
+object Screen2 : Screen
+
 // Declare a serializable result data class.
 @Serializable
 data class Screen2Result(val result: String)
@@ -245,7 +254,7 @@ fun NavigationContent() {
         entry<Screen1>(
             metadata = NavigationResultMetadata.resultConsumer(
                 // Register Screen2ResultKey as typed key.
-                Screen2ResultKey
+                Screen2ResultKey,
             )
         ) {
             Screen1(...)
@@ -286,6 +295,7 @@ fun Screen1(...) {
         if (result != null) {
             // The received result is just a String, but getResult() will decode it to a Screen2Result instance.
             val screen2Result: Screen2Result = result.getResult()
+            resultString = screen2Result.result
             resultConsumer.clearResult(result.resultKey)
         }
     }
@@ -313,6 +323,202 @@ fun Screen2(...) {
         }) {
             Text("Set a result to Screen2ResultKey")
         }
+    }
+}
+```
+
+# Code Examples
+
+There are some more code examples.
+
+## Exmaple: The consumer screen receives multiple results
+
+Receiver screen can receive multiple results from multiple producer screens.
+
+Here is an example that assuming:
+
+* Screen1 is a consumer of "Screen2Result" key and "Screen3Result" key.
+* Screen2 produces a result of "Screen2Result" key.
+* Screen3 produces a result of "Screen3Result" key.
+* Using typed result keys and Kotlinx Serialization pattern.
+
+```kotlin
+@Serializable
+sealed interface Screen : NavKey
+
+@Serializable
+object Screen1 : Screen
+
+@Serializable
+object Screen2 : Screen
+
+@Serializable
+object Screen3 : Screen
+
+// Declare serializable result data classes.
+@Serializable
+data class Screen2Result(val result: String)
+@Serializable
+data class Screen3Result(val result: String)
+
+// Define result keys as SerializableNavigationResultKey's instance,
+val Screen2ResultKey = SerializableNavigationResultKey<Screen2Result>(
+    serializer = Screen2Result.serializer(),
+    resultKey = "Screen2Result",
+)
+val Screen3ResultKey = SerializableNavigationResultKey<Screen3Result>(
+    serializer = Screen3Result.serializer(),
+    resultKey = "Screen3Result",
+)
+
+@Composable
+fun NavigationContent() {
+    val navBackStack = rememberNavBackStack(Screen1)
+    val entryProvider = entryProvider<Screen> {
+        entry<Screen1>(
+            metadata = NavigationResultMetadata.resultConsumer(
+                // Screen1 wants to receive a Screen2Result and a Screen3Result.
+                Screen2ResultKey,
+                Screen3ResultKey,
+            )
+        ) {
+            Screen1(...)
+        }
+        entry<Screen2> {
+            Screen2(...)
+        }
+        entry<Screen3> {
+            Screen3(...)
+        }
+    }
+    NavDisplay(
+        backStack = navBackStack,
+        onBack = { ... },
+        entryDecorators = listOf(
+            rememberSceneSetupNavEntryDecorator(),
+            rememberNavigationResultNavEntryDecorator(
+                navBackStack = navBackStack,
+                entryProvider = entryProvider,
+            ),
+            rememberSavedStateNavEntryDecorator(),
+            rememberViewModelStoreNavEntryDecorator(),
+        ),
+        entryProvider = entryProvider,
+    )
+}
+
+@Composable
+fun Screen1(...) {
+    val json: Json = Json
+    val resultConsumer = LocalNavigationResultConsumer.current
+    var result2String: String by rememberSaveable { mutableStateOf("{empty}") }
+    val screen2Result: SerializedNavigationResult<Screen2Result>? by remember(resultConsumer) {
+        // Receives Screen2Result as State.
+        resultConsumer.getResultState(json, Screen2ResultKey)
+    }
+    LaunchedEffect(screen2Result) {
+        val result: SerializedNavigationResult<Screen2Result>? = screen2Result
+        if (result != null) {
+            // Receives deserialized Screen2Result instance, and clear it from ResultState.
+            val screen2Result: Screen2Result = result.getResult()
+            screen2String = screen2Result.result
+            resultConsumer.clearResult(result.resultKey)
+        }
+    }
+    var result3String: String by rememberSaveable { mutableStateOf("{empty}") }
+    val screen3Result: SerializedNavigationResult<Screen3Result>? by remember(resultConsumer) {
+        // Receives Screen3Result as State.
+        resultConsumer.getResultState(json, Screen3ResultKey)
+    }
+    LaunchedEffect(screen3Result) {
+        val result: SerializedNavigationResult<Screen3Result>? = screen3Result
+        if (result != null) {
+            // Receives deserialized Screen3Result instance, and clear it from ResultState.
+            val screen3Result: Screen3Result = result.getResult()
+            screen3String = screen3Result.result
+            resultConsumer.clearResult(result.resultKey)
+        }
+    }
+    Column {
+        Text("Screen1")
+        Text("Received Screen2's result is: $result2String")
+        Text("Received Screen3's result is: $result3String")
+    }
+}
+
+@Composable
+fun Screen2(...) {
+    val json: Json = Json
+    val resultProducer = LocalNavigationResultProducer.current
+    Column {
+        Text("Screen2")
+        Button(onClick = {
+            resultProducer.setResult(
+                json,
+                Screen2ResultKey,
+                Screen2Result("my result of screen2!"),
+            )
+        }) {
+            Text("Set a result to Screen2ResultKey")
+        }
+    }
+}
+
+@Composable
+fun Screen3(...) {
+    val json: Json = Json
+    val resultProducer = LocalNavigationResultProducer.current
+    Column {
+        Text("Screen3")
+        Button(onClick = {
+            resultProducer.setResult(
+                json,
+                Screen3ResultKey,
+                Screen3Result("my result of screen3!"),
+            )
+        }) {
+            Text("Set a result to Screen3ResultKey")
+        }
+    }
+}
+```
+
+In this situation, if you want to wait for both Screen2Result and Screen3Result are produced,
+you can observe both states in single LaunchedEffect. This is a usual Compose way.
+
+```kotlin
+// The example of waiting for both results are produced.
+@Composable
+fun Screen1(...) {
+    val json: Json = Json
+    val resultConsumer = LocalNavigationResultConsumer.current
+    var result2String: String by rememberSaveable { mutableStateOf("{empty}") }
+    var result3String: String by rememberSaveable { mutableStateOf("{empty}") }
+    val screen2Result: SerializedNavigationResult<Screen2Result>? by remember(resultConsumer) {
+        // Receives Screen2Result as State.
+        resultConsumer.getResultState(json, Screen2ResultKey)
+    }
+    val screen3Result: SerializedNavigationResult<Screen3Result>? by remember(resultConsumer) {
+        // Receives Screen3Result as State.
+        resultConsumer.getResultState(json, Screen3ResultKey)
+    }
+    LaunchedEffect(screen2Result, screen3Result) {
+        val result2: SerializedNavigationResult<Screen2Result>? = screen2Result
+        val result3: SerializedNavigationResult<Screen3Result>? = screen3Result
+        if (result2 != null && result3 != null) {
+            // Receives both results, and clear them from ResultState.
+            val screen2Result: Screen2Result = result2.getResult()
+            val screen3Result: Screen3Result = result3.getResult()
+            result2String = screen2Result.result
+            result3String = screen3Result.result
+            resultConsumer.clearResult(result2.resultKey)
+            resultConsumer.clearResult(result3.resultKey)
+        }
+    }
+    Column {
+        Text("Screen1")
+        Text("Received Screen2's result is: $result2String")
+        Text("Received Screen3's result is: $result3String")
     }
 }
 ```
@@ -379,9 +585,9 @@ The map's contents are associated with NavEntry's lifecycle.
 Here is a state's lifecycle example:
 
 * For example, assume that:
-    * Screen1's contentKey is `"screen1"`.
-    * Screen2's contentKey is `"screen2"`.
-    * Screen3's contentKey is `"screen3"`.
+    * Screen1's NavEntry contentKey is `"screen1"`.
+    * Screen2's NavEntry contentKey is `"screen2"`.
+    * Screen3's NavEntry contentKey is `"screen3"`.
     * Screen1 is a consumer of `"Screen2Result"` key and `"Screen3Result"` key.
     * Screen2 is a consumer of `"Screen3Result"` key.
 

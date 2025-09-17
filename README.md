@@ -380,7 +380,7 @@ Here is a state's lifecycle example:
     * Screen1's contentKey is `"screen1"`.
     * Screen2's contentKey is `"screen2"`.
     * Screen3's contentKey is `"screen3"`.
-  * Screen1 is a consumer of `"Screen2Result"` key and `"Screen3Result"` key.
+    * Screen1 is a consumer of `"Screen2Result"` key and `"Screen3Result"` key.
     * Screen2 is a consumer of `"Screen3Result"` key.
 
 The scenario is as follows:

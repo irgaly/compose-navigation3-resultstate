@@ -7,12 +7,10 @@ is a great library for navigating with stack data driven screen management, that
 to achieve your feature modules become more clearly separated and independently.
 
 However, Navigation3 lacks a Screen Result handling API at this time.
-ResultState provides a Result API based on SavedState architecture for both Android Compose and
+ResultState provides a Result API based on SavedState architecture for both Android Jetpack Compose and
 Compose Multiplatform.
 
 ResultState is a saveable state and remembered, so it works well even if the NavBackStack is restored from Saved State.
-
-* ResultState supports both Android Compose and Compose Multiplatform.
 
 # Compatibility in Navigation3 alpha versions
 
@@ -39,7 +37,7 @@ compatible with.
 
 Add ResultState dependency to your project.
 
-### for Android Compose project
+### for Android Jetpack Compose project
 
 `build.gradle.kts`
 

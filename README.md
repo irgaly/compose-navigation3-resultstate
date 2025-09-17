@@ -2,18 +2,25 @@
 
 ResultState provides the ability to handle screen results for Compose Navigation3.
 
-[AndroidX Compose Navigation3](https://developer.android.com/guide/navigation/navigation-3)
+[Compose Navigation3](https://developer.android.com/guide/navigation/navigation-3)
 is a great library for navigating with stack data driven screen management, that encourages you
-to achieve your modules become more independently.
+to achieve your feature modules become more clearly separated and independently.
 
 However, Navigation3 lacks a Screen Result handling API at this time.
 ResultState provides a Result API based on SavedState architecture for both Android Compose and
-Compose
-Multiplatform.
+Compose Multiplatform.
 
 ResultState is a saveable state and remembered, so it works well even if the NavBackStack is restored from Saved State.
 
 * ResultState supports both Android Compose and Compose Multiplatform.
+
+# Compatibility in Navigation3 alpha versions
+
+Compose Navigation3 is still in alpha version, so use the Navigation3 version that ResultState is
+compatible with.
+
+* ResultState 1.1.0 is compatible
+  with [Navigation3 1.0.0-alpha08](https://developer.android.com/jetpack/androidx/releases/navigation3#1.0.0-alpha08).
 
 # Supporting Platforms
 

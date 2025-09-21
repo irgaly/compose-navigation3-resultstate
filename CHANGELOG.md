@@ -1,3 +1,9 @@
+# v1.1.1 - 2025/09/21 JST
+
+#### Improvement
+
+* update: navigation3: 1.0.0-alpha09, jetbrains navigation3: 1.0.0+dev2978 [#14](https://github.com/irgaly/compose-navigation3-resultstate/pull/14)
+
 # v1.1.0 - 2025/09/17 JST
 
 #### Changes

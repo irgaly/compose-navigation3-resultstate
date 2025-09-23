@@ -6,7 +6,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavEntryDecorator
 import androidx.navigation3.runtime.navEntryDecorator
@@ -15,8 +14,8 @@ import androidx.navigation3.runtime.navEntryDecorator
  * NavEntryDecorator to provide LocalNavigationResultProducer and LocalNavigationResultConsumer
  */
 @Suppress("FunctionName")
-fun <T: Any> NavigationResultNavEntryDecorator(
-    navigationResultStateHolder: NavigationResultStateHolder<T>,
+fun <T : Any> NavigationResultNavEntryDecorator(
+    navigationResultStateHolder: NavigationResultStateHolder<T, *>,
 ): NavEntryDecorator<T> {
     return navEntryDecorator(
         onPop = { contentKey ->
@@ -39,8 +38,8 @@ fun <T: Any> NavigationResultNavEntryDecorator(
  * remember [NavigationResultNavEntryDecorator]
  */
 @Composable
-fun <T: Any> rememberNavigationResultNavEntryDecorator(
-    navigationResultStateHolder: NavigationResultStateHolder<T>,
+fun <T : Any> rememberNavigationResultNavEntryDecorator(
+    navigationResultStateHolder: NavigationResultStateHolder<T, *>,
 ): NavEntryDecorator<T> {
     return remember(navigationResultStateHolder) {
         NavigationResultNavEntryDecorator(navigationResultStateHolder)
@@ -51,13 +50,14 @@ fun <T: Any> rememberNavigationResultNavEntryDecorator(
  * remember [NavigationResultStateHolder]
  * and then, remember [NavigationResultNavEntryDecorator]
  *
- * @param entryProvider the same entryProvider lambda as it is specified to AppNavHost
- * @param contentKeyToString lambda to convert NavEntry.contentKey to String for serialization for SavedState
+ * @param backStack A NavBackStack or a custom backStack List
+ * @param entryProvider The same entryProvider lambda as it is specified to AppNavHost
+ * @param contentKeyToString A lambda to convert NavEntry.contentKey to String for serialization for SavedState
  * @see [rememberNavigationResultStateHolder]
  */
 @Composable
 fun <T : Any> rememberNavigationResultNavEntryDecorator(
-    navBackStack: SnapshotStateList<T>,
+    backStack: List<T>,
     entryProvider: (T) -> NavEntry<*>,
     contentKeyToString: (Any) -> String = { it.toString() },
     savedStateResults: MutableState<Map<String, Map<String, String>>> = rememberSaveable {
@@ -65,7 +65,7 @@ fun <T : Any> rememberNavigationResultNavEntryDecorator(
     },
 ): NavEntryDecorator<T> {
     val navigationResultStateHolder = rememberNavigationResultStateHolder(
-        navBackStack = navBackStack,
+        backStack = backStack,
         entryProvider = entryProvider,
         contentKeyToString = contentKeyToString,
         savedStateResults = savedStateResults,

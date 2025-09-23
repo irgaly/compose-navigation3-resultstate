@@ -4,17 +4,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.snapshots.StateObject
 import androidx.navigation3.runtime.NavEntry
 
 /**
  * Navigation3 Result State Holder
  */
-class NavigationResultStateHolder <T: Any>(
-    val navBackStack: SnapshotStateList<T>,
+class NavigationResultStateHolder<T : Any, Stack>(
+    val navBackStack: Stack,
     val entryProvider: (T) -> NavEntry<*>,
     val contentKeyToString: (Any) -> String,
     /**
@@ -26,7 +27,7 @@ class NavigationResultStateHolder <T: Any>(
      *     * Map Value: result String
      */
     val savedStateResults: MutableState<Map<String, Map<String, String>>>
-): NavigationResultProducer {
+) : NavigationResultProducer where Stack : List<T>, Stack : StateObject {
     /**
      * The resultKey list that each NavEntry wants to receive
      *
@@ -155,18 +156,30 @@ class NavigationResultStateHolder <T: Any>(
 /**
  * create and remember [NavigationResultStateHolder]
  *
- * @param entryProvider the same entryProvider lambda as it is specified to AppNavHost
- * @param contentKeyToString lambda to convert NavEntry.contentKey to String for serialization for SavedState
+ * @param backStack A NavBackStack or a custom backStack List
+ * @param entryProvider The same entryProvider lambda as it is specified to AppNavHost
+ * @param contentKeyToString A lambda to convert NavEntry.contentKey to String for serialization for SavedState
  */
 @Composable
-fun <T: Any> rememberNavigationResultStateHolder(
-    navBackStack: SnapshotStateList<T>,
+fun <T : Any, Stack> rememberNavigationResultStateHolder(
+    backStack: List<T>,
     entryProvider: (T) -> NavEntry<*>,
     contentKeyToString: (Any) -> String = { it.toString() },
     savedStateResults: MutableState<Map<String, Map<String, String>>> = rememberSaveable {
         mutableStateOf(emptyMap())
     }
-): NavigationResultStateHolder<T> {
+): NavigationResultStateHolder<T, Stack> where Stack : List<T>, Stack : StateObject {
+    var navBackStack: Stack
+    if (backStack is StateObject) {
+        @Suppress("UNCHECKED_CAST")
+        navBackStack = backStack as Stack
+    } else {
+        val backStackState = remember { mutableStateListOf<T>() }
+        backStackState.clear()
+        backStackState.addAll(backStack)
+        @Suppress("UNCHECKED_CAST")
+        navBackStack = backStackState as Stack
+    }
     return remember(navBackStack, entryProvider, savedStateResults) {
         NavigationResultStateHolder(
             navBackStack = navBackStack,
@@ -176,7 +189,3 @@ fun <T: Any> rememberNavigationResultStateHolder(
         )
     }
 }
-
-
-
-

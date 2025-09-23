@@ -149,7 +149,7 @@ fun NavigationContent() {
             // The entryProvider must be the same one as NavDisplay's entryProvider.
             // rememberNavigationResultNavEntryDecorator() will also create NavigationResultStateHolder that holds ResultState on SavedState.
             rememberNavigationResultNavEntryDecorator(
-                navBackStack = navBackStack,
+                backStack = navBackStack,
                 entryProvider = entryProvider,
             ),
             rememberSavedStateNavEntryDecorator(),
@@ -268,8 +268,7 @@ fun NavigationContent() {
         onBack = { ... },
         entryDecorators = listOf(
             rememberSceneSetupNavEntryDecorator(),
-            rememberNavigationResultNavEntryDecorator(
-                navBackStack = navBackStack,
+                backStack = navBackStack,
                 entryProvider = entryProvider,
             ),
             rememberSavedStateNavEntryDecorator(),
@@ -397,7 +396,7 @@ fun NavigationContent() {
         entryDecorators = listOf(
             rememberSceneSetupNavEntryDecorator(),
             rememberNavigationResultNavEntryDecorator(
-                navBackStack = navBackStack,
+                backStack = navBackStack,
                 entryProvider = entryProvider,
             ),
             rememberSavedStateNavEntryDecorator(),
@@ -534,7 +533,7 @@ This map contains all values as String, so it can be saved by SavedState.
 ```kotlin
 @Composable
 fun <T : Any> rememberNavigationResultNavEntryDecorator(
-    navBackStack: SnapshotStateList<T>,
+    backStack: List<T>,
     entryProvider: (T) -> NavEntry<*>,
     contentKeyToString: (Any) -> String = { it.toString() },
     savedStateResults: MutableState<Map<String, Map<String, String>>> = rememberSaveable {
@@ -542,7 +541,7 @@ fun <T : Any> rememberNavigationResultNavEntryDecorator(
     },
 ): NavEntryDecorator<T> {
     val navigationResultStateHolder = rememberNavigationResultStateHolder(
-        navBackStack = navBackStack,
+        backStack = backStack,
         entryProvider = entryProvider,
         contentKeyToString = contentKeyToString,
         savedStateResults = savedStateResults,

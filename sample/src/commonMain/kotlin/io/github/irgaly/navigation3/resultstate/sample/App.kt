@@ -100,7 +100,7 @@ fun App() {
             entryDecorators = listOf(
                 rememberSceneSetupNavEntryDecorator(),
                 rememberNavigationResultNavEntryDecorator(
-                    navBackStack = navBackStack,
+                    backStack = navBackStack,
                     entryProvider = entryProvider,
                 ),
                 rememberSavedStateNavEntryDecorator(),

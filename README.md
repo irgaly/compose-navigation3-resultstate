@@ -19,7 +19,7 @@ Compose Navigation3 is still in alpha version, so use the Navigation3 version th
 compatible with.
 
 * ResultState 1.1.2 is compatible with [Navigation3 1.0.0-alpha09](https://developer.android.com/jetpack/androidx/releases/navigation3#1.0.0-alpha09).
-* ResultState 1.1.0, 1.1.1 is compatible with [Navigation3 1.0.0-alpha08](https://developer.android.com/jetpack/androidx/releases/navigation3#1.0.0-alpha08).
+* ResultState 1.1.0 is compatible with [Navigation3 1.0.0-alpha08](https://developer.android.com/jetpack/androidx/releases/navigation3#1.0.0-alpha08).
 
 # Supporting Platforms
 

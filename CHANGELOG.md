@@ -1,3 +1,9 @@
+# v1.1.2 - 2025/09/23 JST
+
+#### Fix
+
+* fix: change navBackStack to List<T> & StateObject (navigation3 1.0.0-alpha09) [#18](https://github.com/irgaly/compose-navigation3-resultstate/pull/18)
+
 # v1.1.1 - 2025/09/21 JST
 
 #### Improvement

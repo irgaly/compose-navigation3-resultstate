@@ -1,3 +1,9 @@
+# v1.1.3 - 2025/10/01 JST
+
+#### Improvement
+
+* Update navigation3-runtime 1.0.0-alpha10, navigation3-ui 1.0.0+dev2999 [#23](https://github.com/irgaly/compose-navigation3-resultstate/pull/23)
+
 # v1.1.2 - 2025/09/23 JST
 
 #### Fix

@@ -18,6 +18,7 @@ Also the saved results are tied to NavEntry's lifecycle, and cleared automatical
 Compose Navigation3 is still in alpha version, so use the Navigation3 version that ResultState is
 compatible with.
 
+* ResultState 1.1.3 is compatible with [Navigation3 1.0.0-alpha10](https://developer.android.com/jetpack/androidx/releases/navigation3#1.0.0-alpha10).
 * ResultState 1.1.2 is compatible with [Navigation3 1.0.0-alpha09](https://developer.android.com/jetpack/androidx/releases/navigation3#1.0.0-alpha09).
 * ResultState 1.1.0 is compatible with [Navigation3 1.0.0-alpha08](https://developer.android.com/jetpack/androidx/releases/navigation3#1.0.0-alpha08).
 
@@ -50,7 +51,7 @@ plugins {
 
 dependencies {
     // add ResultState dependency
-    implementation("io.github.irgaly.navigation3.resultstate:resultstate:1.1.2")
+    implementation("io.github.irgaly.navigation3.resultstate:resultstate:1.1.3")
     implementation("androidx.navigation3:navigation3-ui:...")
     // ...
 }

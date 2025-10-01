@@ -10,7 +10,6 @@ android-target-sdk = "36"
 android-min-sdk = "23"
 androidx-navigation3 = "1.0.0-alpha10"
 junit5-android-test = "1.8.0"
-ui-tooling = "1.9.1"
 
 [libraries]
 gradle-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }

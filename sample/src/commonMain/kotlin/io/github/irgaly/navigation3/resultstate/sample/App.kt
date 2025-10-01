@@ -7,11 +7,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSerializable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.navigation3.runtime.NavKey
-import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
+import androidx.navigation3.scene.rememberSceneSetupNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
 import androidx.savedstate.compose.serialization.serializers.SnapshotStateListSerializer
 import androidx.savedstate.serialization.SavedStateConfiguration
 import io.github.irgaly.navigation3.resultstate.NavigationResultMetadata

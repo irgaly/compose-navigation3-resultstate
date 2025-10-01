@@ -47,7 +47,7 @@ fun App() {
         ) {
             mutableStateListOf(Screen1)
         }
-        val entryProvider = entryProvider<Screen> {
+        val entryProvider = entryProvider {
             entry<Screen1>(
                 metadata = NavigationResultMetadata.resultConsumer(
                     Screen2ResultKey,
@@ -69,7 +69,7 @@ fun App() {
                 Screen2(
                     json = json,
                     onBack = {
-                        if (navBackStack.isNotEmpty()) {
+                        if (1 < navBackStack.size) {
                             navBackStack.removeLastOrNull()
                         }
                     },
@@ -92,9 +92,7 @@ fun App() {
         NavDisplay(
             backStack = navBackStack,
             onBack = {
-                if (navBackStack.isNotEmpty()) {
-                    navBackStack.removeLastOrNull()
-                }
+                navBackStack.removeLastOrNull()
             },
             entryDecorators = listOf(
                 rememberSceneSetupNavEntryDecorator(),

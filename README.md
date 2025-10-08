@@ -116,10 +116,10 @@ in [sample/src/commonMain/kotlin/io/github/irgaly/navigation3/resultstate/sample
 sealed interface Screen : NavKey
 
 @Serializable
-object Screen1 : Screen
+data object Screen1 : Screen
 
 @Serializable
-object Screen2 : Screen
+data object Screen2 : Screen
 
 @Composable
 fun NavigationContent() {
@@ -232,10 +232,10 @@ Here is an example.
 sealed interface Screen : NavKey
 
 @Serializable
-object Screen1 : Screen
+data object Screen1 : Screen
 
 @Serializable
-object Screen2 : Screen
+data object Screen2 : Screen
 
 // Declare a serializable result data class.
 @Serializable
@@ -347,13 +347,13 @@ Here is an example that assuming:
 sealed interface Screen : NavKey
 
 @Serializable
-object Screen1 : Screen
+data object Screen1 : Screen
 
 @Serializable
-object Screen2 : Screen
+data object Screen2 : Screen
 
 @Serializable
-object Screen3 : Screen
+data object Screen3 : Screen
 
 // Declare serializable result data classes.
 @Serializable

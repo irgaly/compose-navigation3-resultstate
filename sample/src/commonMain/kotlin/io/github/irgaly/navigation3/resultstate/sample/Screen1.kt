@@ -24,7 +24,7 @@ import kotlinx.serialization.json.Json
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Serializable
-object Screen1: Screen
+data object Screen1 : Screen
 
 @Composable
 fun Screen1(

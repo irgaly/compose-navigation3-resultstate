@@ -19,7 +19,7 @@ import kotlinx.serialization.json.Json
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Serializable
-object Screen3: Screen
+data object Screen3 : Screen
 
 val Screen3ResultKey = SerializableNavigationResultKey(
     serializer = Screen3Result.serializer(),

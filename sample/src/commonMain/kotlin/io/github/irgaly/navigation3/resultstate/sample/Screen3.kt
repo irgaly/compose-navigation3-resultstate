@@ -34,7 +34,7 @@ data class Screen3Result(
 @Composable
 fun Screen3(
     json: Json,
-    onBack: (count: Int) -> Unit,
+    onBack: () -> Unit,
 ) {
     val resultProducer = LocalNavigationResultProducer.current
     Surface {
@@ -47,12 +47,14 @@ fun Screen3(
         ) {
             Text("Screen3")
             Button(onClick = {
-                onBack(1)
+                onBack()
             }) {
                 Text("Back")
             }
             Button(onClick = {
-                onBack(2)
+                repeat(2) {
+                    onBack()
+                }
             }) {
                 Text("Back to Screen1")
             }

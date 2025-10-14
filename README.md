@@ -112,8 +112,7 @@ in [sample/src/commonMain/kotlin/io/github/irgaly/navigation3/resultstate/sample
 ```kotlin
 // Android Compose project sample
 
-@Serializable
-sealed interface Screen : NavKey
+interface Screen : NavKey
 
 @Serializable
 data object Screen1 : Screen
@@ -228,8 +227,7 @@ Serialization support is provided by extension functions.
 Here is an example.
 
 ```kotlin
-@Serializable
-sealed interface Screen : NavKey
+interface Screen : NavKey
 
 @Serializable
 data object Screen1 : Screen
@@ -344,8 +342,7 @@ Here is an example that assuming:
 * Using typed result keys and Kotlinx Serialization pattern.
 
 ```kotlin
-@Serializable
-sealed interface Screen : NavKey
+interface Screen : NavKey
 
 @Serializable
 data object Screen1 : Screen

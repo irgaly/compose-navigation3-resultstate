@@ -15,15 +15,13 @@ import io.github.irgaly.navigation3.resultstate.NavigationResultMetadata
 import io.github.irgaly.navigation3.resultstate.rememberNavigationResultNavEntryDecorator
 import io.github.irgaly.navigation3.resultstate.resultConsumer
 import kotlinx.serialization.PolymorphicSerializer
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.modules.subclass
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-@Serializable
-sealed interface Screen: NavKey
+interface Screen : NavKey
 
 @Composable
 @Preview

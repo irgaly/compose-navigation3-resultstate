@@ -8,31 +8,27 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavEntryDecorator
-import androidx.navigation3.runtime.navEntryDecorator
 
 /**
  * NavEntryDecorator to provide LocalNavigationResultProducer and LocalNavigationResultConsumer
  */
-@Suppress("FunctionName")
-fun <T : Any> NavigationResultNavEntryDecorator(
+class NavigationResultNavEntryDecorator<T : Any>(
     navigationResultStateHolder: NavigationResultStateHolder<T, *>,
-): NavEntryDecorator<T> {
-    return navEntryDecorator(
-        onPop = { contentKey ->
-            navigationResultStateHolder.onPop(contentKey)
-        },
-        decorator = { entry ->
-            CompositionLocalProvider(
-                LocalNavigationResultProducer provides navigationResultStateHolder,
-                LocalNavigationResultConsumer provides navigationResultStateHolder.getNavigationResultConsumer(
-                    entry
-                ),
-            ) {
-                entry.Content()
-            }
+) : NavEntryDecorator<T>(
+    onPop = { contentKey ->
+        navigationResultStateHolder.onPop(contentKey)
+    },
+    decorate = { entry ->
+        CompositionLocalProvider(
+            LocalNavigationResultProducer provides navigationResultStateHolder,
+            LocalNavigationResultConsumer provides navigationResultStateHolder.getNavigationResultConsumer(
+                entry
+            ),
+        ) {
+            entry.Content()
         }
-    )
-}
+    }
+)
 
 /**
  * remember [NavigationResultNavEntryDecorator]

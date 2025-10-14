@@ -112,8 +112,7 @@ in [sample/src/commonMain/kotlin/io/github/irgaly/navigation3/resultstate/sample
 ```kotlin
 // Android Compose project sample
 
-@Serializable
-sealed interface Screen : NavKey
+interface Screen : NavKey
 
 @Serializable
 data object Screen1 : Screen
@@ -123,7 +122,8 @@ data object Screen2 : Screen
 
 @Composable
 fun NavigationContent() {
-    val navBackStack = rememberNavBackStack(Screen1)
+    @Suppress("UNCHECKED_CAST")
+    val navBackStack = rememberNavBackStack(Screen1) as NavBackStack<Screen>
     val entryProvider = entryProvider<Screen> {
         entry<Screen1>(
             // 1.
@@ -143,7 +143,6 @@ fun NavigationContent() {
         backStack = navBackStack,
         onBack = { ... },
         entryDecorators = listOf(
-            rememberSceneSetupNavEntryDecorator(),
             // 2.
             // Set an NavigationResultNavEntryDecorator to NavDisplay.
             // This decorator provides LocalNavigationResultProducer and LocalNavigationResultConsumer to NavEntries.
@@ -153,7 +152,7 @@ fun NavigationContent() {
                 backStack = navBackStack,
                 entryProvider = entryProvider,
             ),
-            rememberSavedStateNavEntryDecorator(),
+            rememberSaveableStateHolderNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator(),
         ),
         entryProvider = entryProvider,
@@ -170,7 +169,7 @@ fun Screen1(...) {
 
     // 3.
     // Receive the result as ResultState.
-    val resultConsumer = LocalNavigationResultConsumer.current
+    val resultConsumer: NavigationResultConsumer = LocalNavigationResultConsumer.current
     val screen2Result: NavigationResult? by remember(resultConsumer) {
         // The result key is the same one as registered in Screen1's metadata.
         resultConsumer.getResultState("Screen2Result")
@@ -197,7 +196,7 @@ Finally, produce the result from Screen2.
 ```kotlin
 @Composable
 fun Screen2(...) {
-    val resultProducer = LocalNavigationResultProducer.current
+    val resultProducer: NavigationResultProducer = LocalNavigationResultProducer.current
     Column {
         Text("Screen2")
         Button(onClick = {
@@ -228,8 +227,7 @@ Serialization support is provided by extension functions.
 Here is an example.
 
 ```kotlin
-@Serializable
-sealed interface Screen : NavKey
+interface Screen : NavKey
 
 @Serializable
 data object Screen1 : Screen
@@ -250,7 +248,8 @@ val Screen2ResultKey = SerializableNavigationResultKey<Screen2Result>(
 
 @Composable
 fun NavigationContent() {
-    val navBackStack = rememberNavBackStack(Screen1)
+    @Suppress("UNCHECKED_CAST")
+    val navBackStack = rememberNavBackStack(Screen1) as NavBackStack<Screen>
     val entryProvider = entryProvider<Screen> {
         entry<Screen1>(
             metadata = NavigationResultMetadata.resultConsumer(
@@ -268,11 +267,11 @@ fun NavigationContent() {
         backStack = navBackStack,
         onBack = { ... },
         entryDecorators = listOf(
-            rememberSceneSetupNavEntryDecorator(),
+            rememberNavigationResultNavEntryDecorator(
                 backStack = navBackStack,
                 entryProvider = entryProvider,
             ),
-            rememberSavedStateNavEntryDecorator(),
+            rememberSaveableStateHolderNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator(),
         ),
         entryProvider = entryProvider,
@@ -284,7 +283,7 @@ fun Screen1(...) {
     // Use the same Json configuration as Producer side.
     // Here, just use a default Json instance for example.
     val json: Json = Json
-    val resultConsumer = LocalNavigationResultConsumer.current
+    val resultConsumer: NavigationResultConsumer = LocalNavigationResultConsumer.current
     var resultString: String by rememberSaveable { mutableStateOf("{empty}") }
     val screen2Result: SerializedNavigationResult<Screen2Result>? by remember(resultConsumer) {
         // Pass the json instance and typed key.
@@ -310,7 +309,7 @@ fun Screen2(...) {
     // Use the same Json configuration as Consumer side.
     // Here, just use a default Json instance for example.
     val json: Json = Json
-    val resultProducer = LocalNavigationResultProducer.current
+    val resultProducer: NavigationResultProducer = LocalNavigationResultProducer.current
     Column {
         Text("Screen2")
         Button(onClick = {
@@ -343,8 +342,7 @@ Here is an example that assuming:
 * Using typed result keys and Kotlinx Serialization pattern.
 
 ```kotlin
-@Serializable
-sealed interface Screen : NavKey
+interface Screen : NavKey
 
 @Serializable
 data object Screen1 : Screen
@@ -373,7 +371,8 @@ val Screen3ResultKey = SerializableNavigationResultKey<Screen3Result>(
 
 @Composable
 fun NavigationContent() {
-    val navBackStack = rememberNavBackStack(Screen1)
+    @Suppress("UNCHECKED_CAST")
+    val navBackStack = rememberNavBackStack(Screen1) as NavBackStack<Screen>
     val entryProvider = entryProvider<Screen> {
         entry<Screen1>(
             metadata = NavigationResultMetadata.resultConsumer(
@@ -395,12 +394,11 @@ fun NavigationContent() {
         backStack = navBackStack,
         onBack = { ... },
         entryDecorators = listOf(
-            rememberSceneSetupNavEntryDecorator(),
             rememberNavigationResultNavEntryDecorator(
                 backStack = navBackStack,
                 entryProvider = entryProvider,
             ),
-            rememberSavedStateNavEntryDecorator(),
+            rememberSaveableStateHolderNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator(),
         ),
         entryProvider = entryProvider,
@@ -410,7 +408,7 @@ fun NavigationContent() {
 @Composable
 fun Screen1(...) {
     val json: Json = Json
-    val resultConsumer = LocalNavigationResultConsumer.current
+    val resultConsumer: NavigationResultConsumer = LocalNavigationResultConsumer.current
     var result2String: String by rememberSaveable { mutableStateOf("{empty}") }
     val screen2Result: SerializedNavigationResult<Screen2Result>? by remember(resultConsumer) {
         // Receives Screen2Result as State.
@@ -449,7 +447,7 @@ fun Screen1(...) {
 @Composable
 fun Screen2(...) {
     val json: Json = Json
-    val resultProducer = LocalNavigationResultProducer.current
+    val resultProducer: NavigationResultProducer = LocalNavigationResultProducer.current
     Column {
         Text("Screen2")
         Button(onClick = {
@@ -467,7 +465,7 @@ fun Screen2(...) {
 @Composable
 fun Screen3(...) {
     val json: Json = Json
-    val resultProducer = LocalNavigationResultProducer.current
+    val resultProducer: NavigationResultProducer = LocalNavigationResultProducer.current
     Column {
         Text("Screen3")
         Button(onClick = {
@@ -491,7 +489,7 @@ you can observe both states by single LaunchedEffect. This is an usual Compose w
 @Composable
 fun Screen1(...) {
     val json: Json = Json
-    val resultConsumer = LocalNavigationResultConsumer.current
+    val resultConsumer: NavigationResultConsumer = LocalNavigationResultConsumer.current
     var result2String: String by rememberSaveable { mutableStateOf("{empty}") }
     var result3String: String by rememberSaveable { mutableStateOf("{empty}") }
     val screen2Result: SerializedNavigationResult<Screen2Result>? by remember(resultConsumer) {

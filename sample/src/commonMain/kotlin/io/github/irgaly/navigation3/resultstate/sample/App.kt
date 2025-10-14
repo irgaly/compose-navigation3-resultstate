@@ -43,7 +43,7 @@ fun App() {
             configuration = configuration,
             Screen1,
         )
-        val entryProvider = entryProvider {
+        val entryProvider = entryProvider<Screen> {
             entry<Screen1>(
                 metadata = NavigationResultMetadata.resultConsumer(
                     Screen2ResultKey,

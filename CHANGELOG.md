@@ -1,3 +1,9 @@
+# v1.1.5 - 2025/10/30 JST
+
+#### Improvement
+
+* update: navigation3 1.0.0-beta01, CMP navigation3 1.0.0-alpha04+dev3171 [#30](https://github.com/irgaly/compose-navigation3-resultstate/pull/30)
+
 # v1.1.4 - 2025/10/14 JST
 
 #### Improvement

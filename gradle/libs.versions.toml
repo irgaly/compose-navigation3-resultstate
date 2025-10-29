@@ -49,7 +49,7 @@ compose-multiplatform = { id = "org.jetbrains.compose", version = "1.9.0" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-application = { id = "com.android.application", version.ref = "gradle-android" }
 android-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "gradle-android" }
-ksp = { id = "com.google.devtools.ksp", version = "2.2.20-2.0.3" }
+ksp = { id = "com.google.devtools.ksp", version = "2.3.0" }
 kotest = { id = "io.kotest", version.ref = "kotest" }
 dokka = { id = "org.jetbrains.dokka", version = "2.1.0-Beta" }
 nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version = "2.0.0" }

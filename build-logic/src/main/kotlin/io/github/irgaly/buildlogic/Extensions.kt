@@ -2,7 +2,6 @@ package io.github.irgaly.buildlogic
 
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryExtension
-import com.android.build.api.dsl.androidLibrary
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -96,8 +95,6 @@ fun Project.execute(vararg commands: String): String {
 @OptIn(ExperimentalKotlinGradlePluginApi::class)
 fun Project.configureMultiplatformLibrary() {
     extensions.configure<KotlinMultiplatformExtension> {
-        // Android AAR
-        androidLibrary{}
         // Java jar
         jvm()
         // iOS

@@ -98,7 +98,7 @@ To use ResultState, follow this steps:
 Here is an example of an Android Compose project.
 
 Compose Multiplatform project's sample is also available
-in [sample/src/commonMain/kotlin/io/github/irgaly/navigation3/resultstate/sample/App.kt](sample/src/commonMain/kotlin/io/github/irgaly/navigation3/resultstate/sample/App.kt).
+in [sample/app/src/commonMain/kotlin/io/github/irgaly/navigation3/resultstate/sample/App.kt](sample/app/src/commonMain/kotlin/io/github/irgaly/navigation3/resultstate/sample/App.kt).
 
 ```kotlin
 // Android Compose project sample

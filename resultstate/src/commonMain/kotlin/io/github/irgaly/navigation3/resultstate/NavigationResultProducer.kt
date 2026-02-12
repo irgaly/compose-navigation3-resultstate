@@ -28,13 +28,34 @@ interface NavigationResultProducer {
 /**
  * register Navigation Result with encoding to JSON String
  *
+ * @param json a Json instance for serialization. This Json instance should have same configuration as that is used in NavigationResultConsumer.
+ * @param key Result Key for producing
+ * @param result Result value
  * @throws SerializationException rethrows from [Json.decodeFromString]
  * @throws IllegalArgumentException rethrows from [Json.decodeFromString]
  */
+@Deprecated("Use setResult(key: SerializableNavigationResultKey<Result>, result: Result, json: Json) instead.")
 fun <Result> NavigationResultProducer.setResult(
     json: Json,
     key: SerializableNavigationResultKey<Result>,
     result: Result,
+) {
+    setResult(key.resultKey, json.encodeToString(key.serializer, result))
+}
+
+/**
+ * register Navigation Result with encoding to JSON String
+ *
+ * @param key Result Key for producing
+ * @param result Result value
+ * @param json a Json instance for serialization. This Json instance should have same configuration as that is used in NavigationResultConsumer.
+ * @throws SerializationException rethrows from [Json.decodeFromString]
+ * @throws IllegalArgumentException rethrows from [Json.decodeFromString]
+ */
+fun <Result> NavigationResultProducer.setResult(
+    key: SerializableNavigationResultKey<Result>,
+    result: Result,
+    json: Json = Json,
 ) {
     setResult(key.resultKey, json.encodeToString(key.serializer, result))
 }

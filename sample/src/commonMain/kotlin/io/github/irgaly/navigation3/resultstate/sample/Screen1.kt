@@ -39,7 +39,7 @@ fun Screen1(
         mutableStateOf("{empty}")
     }
     val screen2Result by remember (resultConsumer) {
-        resultConsumer.getResultState(json, Screen2ResultKey)
+        resultConsumer.getResultState(Screen2ResultKey, json)
     }
     LaunchedEffect(screen2Result) {
         val result = screen2Result
@@ -49,7 +49,7 @@ fun Screen1(
         }
     }
     val screen3Result by remember {
-        resultConsumer.getResultState(json, Screen3ResultKey)
+        resultConsumer.getResultState(Screen3ResultKey, json)
     }
     LaunchedEffect(screen3Result) {
         val result = screen3Result

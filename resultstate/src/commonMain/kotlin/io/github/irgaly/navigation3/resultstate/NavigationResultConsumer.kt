@@ -26,7 +26,7 @@ interface NavigationResultConsumer {
      * ```
      *
      * @param resultKey Result Key for receiving
-     * @throws IllegalStateException resultKey is not registered to NavEntry for consuming, because [NavigationResultStateHolder.resultConsumer] is not assigned to [NavEntry.metadata].
+     * @throws IllegalStateException resultKey is not registered to NavEntry for consuming, because [NavigationResultMetadata.resultConsumer] is not assigned to [NavEntry.metadata].
      */
     fun getResultState(resultKey: String): State<NavigationResult?>
     /**
@@ -53,7 +53,7 @@ interface NavigationResultConsumer {
  * ```
  *
  * @param key Result Key for receiving
- * @throws IllegalStateException key is not registered to NavEntry for consuming, because [NavigationResultStateHolder.resultConsumer] is not assigned to [NavEntry.metadata].
+ * @throws IllegalStateException key is not registered to NavEntry for consuming, because [NavigationResultMetadata.resultConsumer] is not assigned to [NavEntry.metadata].
  */
 fun <Result> NavigationResultConsumer.getResultState(
     json: Json,
@@ -78,7 +78,7 @@ fun <Result> NavigationResultConsumer.getResultState(
 /**
  * Remove NavigationResult
  *
- * This function is usually for remove a result after that did received and proceeded.
+ * This function is usually for remove a result after that was received and proceeded.
  *
  * @param key Result Key to remove
  */

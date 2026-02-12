@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshots.StateObject
 import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.runtime.get
 
 /**
  * Navigation3 Result State Holder
@@ -38,8 +39,7 @@ class NavigationResultStateHolder<T : Any, Stack>(
         navBackStack.mapNotNull { key ->
             val entry = entryProvider(key)
             val contentKeyString = contentKeyToString(entry.contentKey)
-            val metadata =
-                entry.metadata[NavigationResultMetadata.metadataKey] as? NavigationResultMetadata.ResultConsumer
+            val metadata = entry.metadata[NavigationResultMetadata.ResultConsumerKey]
             if (metadata != null && metadata.resultKeys.isNotEmpty()) {
                 Pair(contentKeyString, metadata.resultKeys.distinct())
             } else {
@@ -102,8 +102,7 @@ class NavigationResultStateHolder<T : Any, Stack>(
             override fun getResultState(
                 resultKey: String,
             ): State<NavigationResult?> {
-                val metadata =
-                    entry.metadata[NavigationResultMetadata.metadataKey] as? NavigationResultMetadata.ResultConsumer
+                val metadata = entry.metadata[NavigationResultMetadata.ResultConsumerKey]
                 if (metadata == null || resultKey !in metadata.resultKeys) {
                     throw IllegalStateException("resultKey \"$resultKey\" is not registered to NavEntry.metadata: entry=${entry.contentKey}")
                 }

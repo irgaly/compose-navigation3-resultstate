@@ -51,7 +51,7 @@ fun Screen2(
         mutableStateOf("{empty}")
     }
     val screen3Result by remember(resultConsumer) {
-        resultConsumer.getResultState(json, Screen3ResultKey)
+        resultConsumer.getResultState(Screen3ResultKey, json)
     }
     LaunchedEffect(screen3Result) {
         val result = screen3Result
@@ -82,9 +82,9 @@ fun Screen2(
             HorizontalDivider()
             Button(onClick = {
                 resultProducer.setResult(
-                    json,
                     Screen2ResultKey,
                     Screen2Result("my result of screen2!"),
+                    json,
                 )
             }) {
                 Text("set result2")

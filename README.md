@@ -271,14 +271,12 @@ fun NavigationContent() {
 
 @Composable
 fun Screen1(...) {
-    // Use the same Json configuration as Producer side.
-    // Here, just use a default Json instance for example.
-    val json: Json = Json
     val resultConsumer: NavigationResultConsumer = LocalNavigationResultConsumer.current
     var resultString: String by rememberSaveable { mutableStateOf("{empty}") }
     val screen2Result: SerializedNavigationResult<Screen2Result>? by remember(resultConsumer) {
-        // Pass the json instance and typed key.
-        resultConsumer.getResultState(json, Screen2ResultKey)
+        resultConsumer.getResultState(Screen2ResultKey)
+        // Pass the json instance and typed key when custom Json instance is needed.
+        //resultConsumer.getResultState(Screen2ResultKey, json)
     }
     LaunchedEffect(screen2Result) {
         val result: SerializedNavigationResult<Screen2Result>? = screen2Result
@@ -297,19 +295,20 @@ fun Screen1(...) {
 
 @Composable
 fun Screen2(...) {
-    // Use the same Json configuration as Consumer side.
-    // Here, just use a default Json instance for example.
-    val json: Json = Json
     val resultProducer: NavigationResultProducer = LocalNavigationResultProducer.current
     Column {
         Text("Screen2")
         Button(onClick = {
-            // Pass the json instance, the typed key, and the result instance.
             resultProducer.setResult(
-                json,
                 Screen2ResultKey,
                 Screen2Result("my result of screen2!"),
             )
+            // Pass the json instance and typed key when custom Json instance is needed.
+            //resultProducer.setResult(
+            //    Screen2ResultKey,
+            //    Screen2Result("my result of screen2!"),
+            //    json,
+            //)
         }) {
             Text("Set a result to Screen2ResultKey")
         }
@@ -398,12 +397,11 @@ fun NavigationContent() {
 
 @Composable
 fun Screen1(...) {
-    val json: Json = Json
     val resultConsumer: NavigationResultConsumer = LocalNavigationResultConsumer.current
     var result2String: String by rememberSaveable { mutableStateOf("{empty}") }
     val screen2Result: SerializedNavigationResult<Screen2Result>? by remember(resultConsumer) {
         // Receives Screen2Result as State.
-        resultConsumer.getResultState(json, Screen2ResultKey)
+        resultConsumer.getResultState(Screen2ResultKey)
     }
     LaunchedEffect(screen2Result) {
         val result: SerializedNavigationResult<Screen2Result>? = screen2Result
@@ -417,7 +415,7 @@ fun Screen1(...) {
     var result3String: String by rememberSaveable { mutableStateOf("{empty}") }
     val screen3Result: SerializedNavigationResult<Screen3Result>? by remember(resultConsumer) {
         // Receives Screen3Result as State.
-        resultConsumer.getResultState(json, Screen3ResultKey)
+        resultConsumer.getResultState(Screen3ResultKey)
     }
     LaunchedEffect(screen3Result) {
         val result: SerializedNavigationResult<Screen3Result>? = screen3Result
@@ -437,13 +435,11 @@ fun Screen1(...) {
 
 @Composable
 fun Screen2(...) {
-    val json: Json = Json
     val resultProducer: NavigationResultProducer = LocalNavigationResultProducer.current
     Column {
         Text("Screen2")
         Button(onClick = {
             resultProducer.setResult(
-                json,
                 Screen2ResultKey,
                 Screen2Result("my result of screen2!"),
             )
@@ -455,13 +451,11 @@ fun Screen2(...) {
 
 @Composable
 fun Screen3(...) {
-    val json: Json = Json
     val resultProducer: NavigationResultProducer = LocalNavigationResultProducer.current
     Column {
         Text("Screen3")
         Button(onClick = {
             resultProducer.setResult(
-                json,
                 Screen3ResultKey,
                 Screen3Result("my result of screen3!"),
             )
@@ -479,17 +473,16 @@ you can observe both states by single LaunchedEffect. This is an usual Compose w
 // The example of waiting for both results are produced.
 @Composable
 fun Screen1(...) {
-    val json: Json = Json
     val resultConsumer: NavigationResultConsumer = LocalNavigationResultConsumer.current
     var result2String: String by rememberSaveable { mutableStateOf("{empty}") }
     var result3String: String by rememberSaveable { mutableStateOf("{empty}") }
     val screen2Result: SerializedNavigationResult<Screen2Result>? by remember(resultConsumer) {
         // Receives Screen2Result as State.
-        resultConsumer.getResultState(json, Screen2ResultKey)
+        resultConsumer.getResultState(Screen2ResultKey)
     }
     val screen3Result: SerializedNavigationResult<Screen3Result>? by remember(resultConsumer) {
         // Receives Screen3Result as State.
-        resultConsumer.getResultState(json, Screen3ResultKey)
+        resultConsumer.getResultState(Screen3ResultKey)
     }
     LaunchedEffect(screen2Result, screen3Result) {
         val result2: SerializedNavigationResult<Screen2Result>? = screen2Result

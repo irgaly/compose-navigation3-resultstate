@@ -61,9 +61,9 @@ fun Screen3(
             HorizontalDivider()
             Button(onClick = {
                 resultProducer.setResult(
+                    Screen3ResultKey,
+                    Screen3Result("my result of screen3!"),
                     json,
-                     Screen3ResultKey,
-                    Screen3Result("my result of screen3!")
                 )
             }) {
                 Text("set result3")

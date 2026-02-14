@@ -1,13 +1,15 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.buildlogic.android.application)
+    alias(libs.plugins.buildlogic.android.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
-    androidTarget {}
+    androidLibrary {
+        namespace = "io.github.irgaly.navigation3.resultstate.sample.app"
+    }
     listOf(
         iosArm64(),
         iosSimulatorArm64()
@@ -31,12 +33,4 @@ kotlin {
             implementation(libs.compose.activity)
         }
     }
-}
-
-android {
-    namespace = "io.github.irgaly.navigation3.resultstate.sample"
-}
-
-dependencies {
-    debugImplementation(compose.uiTooling)
 }

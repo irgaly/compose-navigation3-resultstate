@@ -8,7 +8,7 @@ gradle-android = "9.0.0"
 android-compile-sdk = "36"
 android-target-sdk = "36"
 android-min-sdk = "23"
-androidx-navigation3 = "1.0.0"
+androidx-navigation3 = "1.1.0-alpha04"
 junit5-android-test = "2.0.1"
 
 [libraries]

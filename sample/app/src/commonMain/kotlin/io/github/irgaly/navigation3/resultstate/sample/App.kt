@@ -7,6 +7,7 @@ import androidx.compose.runtime.saveable.rememberSerializable
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.metadata
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.runtime.serialization.NavBackStackSerializer
 import androidx.navigation3.ui.NavDisplay
@@ -43,10 +44,15 @@ fun App() {
         )
         val entryProvider = entryProvider<Screen> {
             entry<Screen1>(
-                metadata = NavigationResultMetadata.resultConsumer(
-                    Screen2ResultKey,
-                    Screen3ResultKey,
-                )
+                metadata = metadata {
+                    put(
+                        NavigationResultMetadata.ResultConsumerKey,
+                        NavigationResultMetadata.resultConsumer(
+                            Screen2ResultKey,
+                            Screen3ResultKey,
+                        ),
+                    )
+                },
             ) {
                 Screen1(
                     json = json,
@@ -56,9 +62,14 @@ fun App() {
                 )
             }
             entry<Screen2>(
-                metadata = NavigationResultMetadata.resultConsumer(
-                    Screen3ResultKey,
-                )
+                metadata = metadata {
+                    put(
+                        NavigationResultMetadata.ResultConsumerKey,
+                        NavigationResultMetadata.resultConsumer(
+                            Screen3ResultKey,
+                        ),
+                    )
+                },
             ) {
                 Screen2(
                     json = json,

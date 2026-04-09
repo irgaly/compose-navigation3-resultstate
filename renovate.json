@@ -11,11 +11,15 @@
       "enabled": false
     },
     {
-      "groupName": "Android Gradle Plugin",
+      "groupName": "Kotlin",
       "matchPackageNames": [
-        "com.android.application",
-        "com.android.library"
-      ]
+        "org.jetbrains.kotlin:*",
+        "org.jetbrains.kotlin.*"
+      ],
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "enabled": true
     },
     {
       "groupName": "Kotest",

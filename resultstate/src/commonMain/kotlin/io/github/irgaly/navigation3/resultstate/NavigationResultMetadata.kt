@@ -1,7 +1,32 @@
 package io.github.irgaly.navigation3.resultstate
 
+import androidx.navigation3.runtime.NavMetadataKey
+import androidx.navigation3.runtime.NavEntry
+
 object NavigationResultMetadata {
-    val metadataKey: String = "io.github.irgaly.navigation3.resultstate.NavigationResultMetadata.metadataKey"
+    /**
+     * The key for [NavEntry.metadata] to define the result keys that this entry want to receive
+     *
+     * ## usage
+     *
+     * ```kotlin
+     * @Serializable sealed interface Screen: NavKey
+     * val entryProvider = entryProvider<Screen> {
+     *   entry<Screen1>(
+     *     metadata = metadata {
+     *       put(
+     *         NavigationResultMetadata.ResultConsumerKey,
+     *         NavigationResultMetadata.resultConsumer("Screen2Result"),
+     *       )
+     *     }
+     *   ) {
+     *     ...
+     *   }
+     * }
+     * ...
+     * ```
+     */
+    object ResultConsumerKey: NavMetadataKey<ResultConsumer>
 
     /**
      * Define the result keys that this entry want to receive
@@ -12,9 +37,12 @@ object NavigationResultMetadata {
      * @Serializable sealed interface Screen: NavKey
      * val entryProvider = entryProvider<Screen> {
      *   entry<Screen1>(
-     *     metadata = NavigationResultMetadata.resultConsumer(
-     *        "Screen2Result",
-     *     )
+     *     metadata = metadata {
+     *       put(
+     *         NavigationResultMetadata.ResultConsumerKey,
+     *         NavigationResultMetadata.resultConsumer("Screen2Result"),
+     *       )
+     *     }
      *   ) {
      *     ...
      *   }
@@ -24,10 +52,8 @@ object NavigationResultMetadata {
      */
     fun resultConsumer(
         vararg resultKeys: String
-    ): Map<String, Any> {
-        return mapOf(
-            metadataKey to ResultConsumer(resultKeys.toList())
-        )
+    ): ResultConsumer {
+        return ResultConsumer(resultKeys.toList())
     }
 
     data class ResultConsumer(
@@ -45,9 +71,12 @@ object NavigationResultMetadata {
  * val Screen2ResultKey = SerializableNavigationResultKey(Screen2Result.serializer(), "Screen2Result")
  * val entryProvider = entryProvider<Screen> {
  *   entry<Screen1>(
- *     metadata = NavigationResultMetadata.resultConsumer(
- *        Screen2ResultKey,
- *     )
+ *     metadata = metadata {
+ *       put(
+ *         NavigationResultMetadata.ResultConsumerKey,
+ *         NavigationResultMetadata.resultConsumer(Screen2ResultKey),
+ *       )
+ *     }
  *   ) {
  *     ...
  *   }
@@ -57,7 +86,7 @@ object NavigationResultMetadata {
  */
 fun NavigationResultMetadata.resultConsumer(
     vararg resultKeys: SerializableNavigationResultKey<*>
-): Map<String, Any> {
+): NavigationResultMetadata.ResultConsumer {
     return NavigationResultMetadata.resultConsumer(
         *resultKeys.map { it.resultKey }.toTypedArray()
     )

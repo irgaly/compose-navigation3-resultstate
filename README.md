@@ -120,9 +120,14 @@ fun NavigationContent() {
             // 1.
             // Declare that the Screen1 want to receive the Screen2's result, so register "Screen2Result" key to metadata.
             // The result key is just unique string tied to the Screen2's result.
-            metadata = NavigationResultMetadata.resultConsumer(
-                "Screen2Result",
-            )
+            metadata = metadata {
+                put(
+                    NavigationResultMetadata.ResultConsumerKey,
+                    NavigationResultMetadata.resultConsumer(
+                        "Screen2Result",
+                    ),
+                )
+            },
         ) {
             Screen1(...)
         }
@@ -243,10 +248,15 @@ fun NavigationContent() {
     val navBackStack = rememberNavBackStack(Screen1) as NavBackStack<Screen>
     val entryProvider = entryProvider<Screen> {
         entry<Screen1>(
-            metadata = NavigationResultMetadata.resultConsumer(
-                // Register Screen2ResultKey as typed key.
-                Screen2ResultKey,
-            )
+            metadata = metadata {
+                put(
+                    NavigationResultMetadata.ResultConsumerKey,
+                    NavigationResultMetadata.resultConsumer(
+                        // Register Screen2ResultKey as typed key.
+                        Screen2ResultKey,
+                    ),
+                )
+            },
         ) {
             Screen1(...)
         }
@@ -366,11 +376,16 @@ fun NavigationContent() {
     val navBackStack = rememberNavBackStack(Screen1) as NavBackStack<Screen>
     val entryProvider = entryProvider<Screen> {
         entry<Screen1>(
-            metadata = NavigationResultMetadata.resultConsumer(
-                // Screen1 wants to receive a Screen2Result and a Screen3Result.
-                Screen2ResultKey,
-                Screen3ResultKey,
-            )
+            metadata = metadata {
+                put(
+                    NavigationResultMetadata.ResultConsumerKey,
+                    NavigationResultMetadata.resultConsumer(
+                        // Screen1 wants to receive a Screen2Result and a Screen3Result.
+                        Screen2ResultKey,
+                        Screen3ResultKey,
+                    ),
+                )
+            },
         ) {
             Screen1(...)
         }

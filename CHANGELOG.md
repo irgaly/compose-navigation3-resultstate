@@ -1,3 +1,19 @@
+# v1.2.0 - 2026/4/9 JST
+
+#### Changes
+
+* NavigationResultConsumer, NavigationResultProducer: json parameter to
+  optional [#48](https://github.com/irgaly/compose-navigation3-resultstate/pull/48)
+* Support Navigation3 1.1.0 metadata
+  DSL [#50](https://github.com/irgaly/compose-navigation3-resultstate/pull/50)
+* remove support: watchosX64, tvosX64,
+  macosX64 [#61](https://github.com/irgaly/compose-navigation3-resultstate/pull/61)
+* remove support: iosX64 [#64](https://github.com/irgaly/compose-navigation3-resultstate/pull/64)
+
+#### Maintenance
+
+* migrate AGP 9.0.0 [#51](https://github.com/irgaly/compose-navigation3-resultstate/pull/51)
+
 # v1.1.6 - 2025/11/22 JST
 
 #### Improvement

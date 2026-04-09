@@ -1,6 +1,6 @@
 [versions]
 resultstate = "1.1.6"
-kotlin = "2.3.0"
+kotlin = "2.3.20"
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.10.0"
 kotest = "6.1.11"

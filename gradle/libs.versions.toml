@@ -5,10 +5,10 @@ kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.10.0"
 kotest = "6.1.11"
 gradle-android = "9.1.0"
-android-compile-sdk = "36"
-android-target-sdk = "36"
-android-min-sdk = "23"
-androidx-navigation3 = "1.1.0"
+android-compile-sdk = "37"
+android-target-sdk = "37"
+android-min-sdk = "24"
+androidx-navigation3 = "1.2.0"
 junit5-android-test = "2.0.1"
 
 [libraries]
@@ -22,7 +22,7 @@ androidx-appcompat = { module = "androidx.appcompat:appcompat", version = "1.7.1
 androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version = "2.11.0" }
 compose-activity = { module = "androidx.activity:activity-compose", version = "1.13.0" }
 compose-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "androidx-navigation3" }
-compose-navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version = "1.0.0-alpha05" }
+compose-navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version = "1.1.2" }
 test-kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 test-kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 test-kotest-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }

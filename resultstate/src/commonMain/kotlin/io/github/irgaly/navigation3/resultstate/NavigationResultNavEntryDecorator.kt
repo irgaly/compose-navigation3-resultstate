@@ -55,7 +55,7 @@ fun <T : Any> rememberNavigationResultNavEntryDecorator(
 fun <T : Any> rememberNavigationResultNavEntryDecorator(
     backStack: List<T>,
     entryProvider: (T) -> NavEntry<*>,
-    contentKeyToString: (Any) -> String = { it.toString() },
+    contentKeyToString: (Any) -> String = { "$it:${it::class}" },
     savedStateResults: MutableState<Map<String, Map<String, String>>> = rememberSaveable {
         mutableStateOf(emptyMap())
     },

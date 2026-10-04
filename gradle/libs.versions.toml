@@ -9,7 +9,6 @@ android-compile-sdk = "37"
 android-target-sdk = "37"
 android-min-sdk = "24"
 androidx-navigation3 = "1.2.0"
-junit5-android-test = "2.0.1"
 
 [libraries]
 gradle-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -24,12 +23,10 @@ compose-activity = { module = "androidx.activity:activity-compose", version = "1
 compose-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "androidx-navigation3" }
 compose-navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version = "1.1.2" }
 test-kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+test-kotest-runner-junit4 = { module = "io.kotest:kotest-runner-junit4", version.ref = "kotest" }
 test-kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 test-kotest-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
 test-turbine = { module = "app.cash.turbine:turbine", version = "1.2.1" }
-test-android-junit5 = { module = "org.junit.jupiter:junit-jupiter-api", version = "6.0.0" }
-test-android-junit5-core = { module = "de.mannodermaus.junit5:android-test-core", version.ref = "junit5-android-test" }
-test-android-junit5-runner = { module = "de.mannodermaus.junit5:android-test-runner", version.ref = "junit5-android-test" }
 test-android-runner = { module = "androidx.test:runner", version = "1.7.0" }
 resultstate = { module = "io.github.irgaly.navigation3.resultstate:resultstate", version.ref = "resultstate" }
 
@@ -37,8 +34,8 @@ resultstate = { module = "io.github.irgaly.navigation3.resultstate:resultstate",
 test-common = [
     "kotlinx-coroutines-test", "test-kotest-engine",
     "test-kotest-assertions", "test-turbine"]
-test-android-instrumented = [
-    "test-kotest-assertions", "test-android-junit5", "test-android-junit5-core", "test-android-runner",
+test-android-devicetest = [
+    "test-android-runner", "test-kotest-assertions", "test-kotest-runner-junit4",
     "kotlinx-coroutines-test", "test-turbine"
 ]
 
@@ -53,7 +50,6 @@ ksp = { id = "com.google.devtools.ksp", version = "2.3.5" }
 kotest = { id = "io.kotest", version.ref = "kotest" }
 dokka = { id = "org.jetbrains.dokka", version = "2.2.0" }
 nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version = "2.0.0" }
-android-junit5 = { id = "de.mannodermaus.android-junit5", version = "2.0.1" }
 buildlogic-multiplatform-library = { id = "build-logic.multiplatform.library" }
 buildlogic-android-application = { id = "build-logic.android.application" }
 buildlogic-android-library = { id = "build-logic.android.library" }

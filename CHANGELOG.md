@@ -1,3 +1,13 @@
+# v1.3.0 - 2026/10/4 JST
+
+#### Changes
+
+* Support Navigation3 1.2.0 [#78](https://github.com/irgaly/compose-navigation3-resultstate/pull/78)
+  * update navigation3 1.2.0
+  * update navigation3-ui 1.1.2
+  * change contentKeyToString to `key + key::class`
+  * compileSdk = 37, targetSdk = 37, minSdk = 24
+
 # v1.2.0 - 2026/4/9 JST
 
 #### Changes

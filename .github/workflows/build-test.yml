@@ -67,7 +67,9 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         if: contains(matrix.platform, 'ubuntu')
         with:
-          api-level: 29
+          api-level: 30
+          target: google_apis
+          arch: x86_64
           script: |
             #./gradlew :resultstate:pixel6GroupDebugAndroidTest
             #./gradlew :resultstate:connectedDebugAndroidTest
@@ -93,33 +95,11 @@ jobs:
           # Windows で gradle cache を保存するために
           # .gradle/caches/8.0/kotlin-dsl/kotlin-dsl.lock の使用中ロックを解除する
           ./gradlew --stop
-      - uses: actions/upload-artifact@v7
-        if: always() && contains(matrix.platform, 'macos')
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        if: always()
         with:
-          name: test-results-macos
+          name: test-results-${{ matrix.platform }}
           path: |
-            **/build/reports/tests/jvmTest
-            **/build/reports/tests/jsNodeTest
-            **/build/reports/tests/wasmJsNodeTest
-            **/build/reports/tests/macosArm64Test
-            **/build/reports/tests/iosSimulatorArm64Test
-      - uses: actions/upload-artifact@v7
-        if: always() && contains(matrix.platform, 'ubuntu')
-        with:
-          name: test-results-linux
-          path: |
-            **/build/reports/tests/jvmTest
-            **/build/reports/tests/jsNodeTest
-            **/build/reports/tests/wasmJsNodeTest
-            **/build/reports/tests/linuxX64Test
-            **/build/reports/androidTests/managedDevice/allDevices
-            **/build/reports/androidTests/connected
-      - uses: actions/upload-artifact@v7
-        if: always() && contains(matrix.platform, 'windows')
-        with:
-          name: test-results-windows
-          path: |
-            **/build/reports/tests/jvmTest
-            **/build/reports/tests/jsNodeTest
-            **/build/reports/tests/wasmJsNodeTest
-            **/build/reports/tests/mingwX64Test
+            **/build/test-results/*/*.xml
+            **/build/reports/tests/*
+            **/build/reports/androidTests/*

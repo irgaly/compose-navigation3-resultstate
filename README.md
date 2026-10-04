@@ -6,12 +6,29 @@ ResultState provides the ability to handle screen results for Compose Navigation
 is a great library for navigating with stack data driven screen management, that encourages you
 to achieve your feature modules become more clearly separated and independently.
 
-However, Navigation3 lacks a Screen Result handling API at this time.
 ResultState provides a Result API based on SavedState architecture for both Android Jetpack Compose and
 Compose Multiplatform.
 
 The result values are stored into SavedState, and survive through Activity recreation or process restarting correctly.
-Also the saved results are tied to NavEntry's lifecycle, and cleared automatically when the receiver screen is popped out.
+Also, the saved results are tied to NavEntry's lifecycle, and cleared automatically when the
+receiver screen is popped out.
+
+## ResultState vs ResultEventBus by Navigation3
+
+Though Navigation3 has a screen Result API, `ResultEventBus`, it is based on Channels, not on State.
+
+Therefore, it has the following architecture weaknesses:
+
+* ResultEventBus (by Navigation3)
+    * :x: The result values are discarded when Activity recreation, or process death.
+    * :x: The result values are remained and leaked when the receiver screen is popped before
+      receiving the results.
+
+| Comparision                          | ResultState library                                          | ResultEventBus by Navigation3 |
+|--------------------------------------|--------------------------------------------------------------|-------------------------------|
+| Base architecture                    | State based                                                  | Channel based                 |
+| Activity recreation or process death | :white_check_mark: The results are survived.                 | :x: discarded                 |
+| When receiver screen is popped       | :white_check_mark: The results are automatically cleaned up. | :x: remained and leaked       |
 
 # Supporting Platforms
 

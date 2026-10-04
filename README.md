@@ -59,7 +59,7 @@ plugins {
 
 dependencies {
     // add ResultState dependency
-    implementation("io.github.irgaly.navigation3.resultstate:resultstate:1.2.0")
+    implementation("io.github.irgaly.navigation3.resultstate:resultstate:1.3.0")
     implementation("androidx.navigation3:navigation3-ui:...")
     // ...
 }
@@ -83,7 +83,7 @@ kotlin {
         commonMain {
             dependencies {
                 // add ResultState dependency
-                implementation("io.github.irgaly.navigation3.resultstate:resultstate:1.2.0")
+                implementation("io.github.irgaly.navigation3.resultstate:resultstate:1.3.0")
                 implementation("org.jetbrains.androidx.navigation3:navigation3-ui:...")
                 // ...
             }

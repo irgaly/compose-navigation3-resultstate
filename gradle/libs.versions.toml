@@ -1,5 +1,5 @@
 [versions]
-resultstate = "1.2.0"
+resultstate = "1.3.0"
 kotlin = "2.4.20"
 kotlinx-coroutines = "1.11.0"
 kotlinx-serialization = "1.11.0"
